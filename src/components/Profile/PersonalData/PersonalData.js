@@ -2,26 +2,35 @@ import { useForm } from 'react-hook-form';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './PersonalData.scss';
+import PropTypes from 'prop-types';
+import ModalMenuImage from './ModalMenuImage/ModalMenuImage';
 import changePhoto from '../../../images/change-photo.svg';
 import { getUsersInfo, setUsersInfo } from '../../../utils/MainApi';
-// import photoProfile from '../../images/plug.svg';
+import { useUser } from '../../context/UserContext';
 
-function PersonalData() {
-	const {
-		register,
-		handleSubmit,
-		// getValues,
-		// watch, // для отслеживания input value
-		// formState: { errors, isValid, isDirty },
-	} = useForm({
+function PersonalData({
+	handleOpenUploadModal,
+	handleOpenModalMenu,
+	handleCloseModalMenu,
+	handleOpenDeleteModal,
+	isMenuModal,
+}) {
+	const { register, handleSubmit } = useForm({
 		mode: 'onTouched',
-		// resolver: yupResolver(LoginSchema),
 	});
-
 	const navigate = useNavigate();
-
 	const [personalData, setPersonalData] = useState([]);
 	const [contacts, setContacts] = useState([]);
+	const { userData } = useUser();
+	// инифицалы
+	const firstNameInitial = personalData.first_name
+		? personalData.first_name.charAt(0).toUpperCase()
+		: '';
+	const lastNameInitial = personalData.last_name
+		? personalData.last_name.charAt(0).toUpperCase()
+		: '';
+	const initials = `${firstNameInitial}${lastNameInitial}`;
+	const fullName = `${personalData.first_name} ${personalData.last_name}`;
 
 	useEffect(() => {
 		getUsersInfo()
@@ -36,15 +45,6 @@ function PersonalData() {
 				console.log(res);
 			});
 	}, [navigate]);
-
-	const firstNameInitial = personalData.first_name
-		? personalData.first_name.charAt(0).toUpperCase()
-		: '';
-	const lastNameInitial = personalData.last_name
-		? personalData.last_name.charAt(0).toUpperCase()
-		: '';
-	const initials = `${firstNameInitial}${lastNameInitial}`;
-	const fullName = `${personalData.first_name} ${personalData.last_name}`;
 
 	function handlePersonalData(data) {
 		setUsersInfo(data)
@@ -64,10 +64,10 @@ function PersonalData() {
 	return (
 		<section className="personal-data">
 			<div className="personal-data__photo-container">
-				{personalData.image ? (
+				{userData && userData.image ? (
 					<img
 						className="personal-data__photo"
-						src={personalData.image}
+						src={userData.image}
 						alt="Фотография сотрудника"
 					/>
 				) : (
@@ -77,7 +77,11 @@ function PersonalData() {
 				<p className="personal-data__job">{personalData.role || ' '}</p>
 				<p className="personal-data__department">{personalData.department}</p>
 				<p className="personal-data__level">{`Уровень: ${personalData.position}`}</p>
-				<button className="personal-data__change-photo-button" type="button">
+				<button
+					className="personal-data__change-photo-button"
+					type="button"
+					onClick={handleOpenModalMenu}
+				>
 					<img
 						className="personal-data__change-photo-logo"
 						src={changePhoto}
@@ -185,8 +189,23 @@ function PersonalData() {
 					</button>
 				</form>
 			</div>
+			{isMenuModal && (
+				<ModalMenuImage
+					onClose={handleCloseModalMenu}
+					handleOpenUploadModal={handleOpenUploadModal}
+					handleOpenDeleteModal={handleOpenDeleteModal}
+				/>
+			)}
 		</section>
 	);
 }
+
+PersonalData.propTypes = {
+	handleOpenUploadModal: PropTypes.func.isRequired,
+	handleOpenModalMenu: PropTypes.func.isRequired,
+	handleCloseModalMenu: PropTypes.func.isRequired,
+	handleOpenDeleteModal: PropTypes.func.isRequired,
+	isMenuModal: PropTypes.bool.isRequired,
+};
 
 export default PersonalData;

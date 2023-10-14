@@ -1,0 +1,97 @@
+.modal-background {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	height: 100vh;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.1);
+	top: 0;
+	left: 0;
+	z-index: 2;
+}
+
+.modalDelete {
+	width: 488px;
+	height: 266px;
+	display: flex;
+	flex-direction: column;
+	padding: 28px 32px;
+	gap: 20px;
+	background-color: #fff;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	align-items: center;
+	transform: translate(-50%, -50%);
+	text-align: center;
+	box-sizing: border-box;
+	border-radius: 6px;
+	z-index: 3;
+
+	&__title {
+		font-size: 16px;
+		line-height: 25px;
+		font-weight: 500;
+		color: #0f1d40;
+		margin: 0;
+	}
+
+	&__close-btn {
+		position: absolute;
+		width: 18px;
+		height: 18px;
+		top: 32px;
+		right: 32px;
+		background-image: url('../../../images/close-btn.svg');
+		background-repeat: no-repeat;
+		border: none;
+		background-color: transparent;
+		cursor: pointer;
+	}
+
+	&__image {
+		width: 64px;
+		height: 64px;
+	}
+
+	&__text {
+		text-align: center;
+		font-size: 16px;
+		font-weight: 500;
+		color: #525c76;
+		margin: 0;
+		height: auto;
+		white-space: pre-line;
+	}
+
+	&__button-container {
+		display: flex;
+		flex-direction: row;
+		gap: 16px;
+	}
+
+	&__btn {
+		width: 120px;
+		height: 29px;
+		color: #8247e5;
+		font-weight: 500;
+		font-size: 16px;
+        text-align: center;
+		background-color: transparent;
+		padding: 4px 12px;
+		border: none;
+        cursor: pointer;
+        transition: opacity .2s linear;
+
+        &:hover {
+            opacity: .8;
+        }
+
+		&_confirm {
+			border: 1px solid #a673ef;
+			border-radius: 3px;
+		}
+	}
+}

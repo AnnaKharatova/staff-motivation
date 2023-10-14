@@ -1,6 +1,7 @@
 import './App.scss';
 import React, { useEffect, useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
+import Teamleader from '../Teamleader/TeamleadTasks/TeamleadTasks';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
 import ResetPassword from '../ResetPassword/ResetPassword';
@@ -13,8 +14,9 @@ import Header from './Header/Header';
 import SideNavbar from './SideNavbar/SideNavbar';
 import ModalConfirm from './ModalConfirm/ModalConfirm';
 import ModalUpload from './ModalUpload/ModalUpload';
+import ModalDeleteImage from './ModalDeleteImage/ModalDeleteImage';
+import { useUser } from '../context/UserContext';
 import Notifications from './Header/Notifications/Notifications';
-import Teamleader from '../Teamleader/TeamleadTasks/TeamleadTasks';
 import { getUserData, getNotification } from '../../utils/MainApi';
 
 function App() {
@@ -23,20 +25,11 @@ function App() {
 	const [isOpenModalConfirm, setIsOpenModalconfirm] = useState(false);
 	const [isOpenPushesModal, setIsPushesModal] = useState(false);
 	const [isUploadModal, setIsUploadModal] = useState(false);
+	const [isDeleteModal, setIsDeleteModal] = useState(false);
 	const [notificationsData, setNotificationsData] = useState([]);
-
+	const { setUserData } = useUser();
 	const navigate = useNavigate();
-
 	const token = localStorage.getItem('token');
-
-	const [userData, setUserData] = useState({
-		first_name: '',
-		last_name: '',
-		image: '',
-		reward_points_for_current_month: '0',
-		reward_points: '',
-		rating: '',
-	});
 
 	useEffect(() => {
 		if (loggedIn) {
@@ -55,7 +48,7 @@ function App() {
 					console.log(res);
 				});
 		}
-	}, [navigate, loggedIn]);
+	}, [navigate, loggedIn, setUserData]);
 
 	const handleLogOut = () => {
 		setLoggedIn(false);
@@ -63,15 +56,18 @@ function App() {
 		localStorage.clear();
 		navigate('/signin');
 	};
-
+	// Confirm modal
 	const handleOpenModalConfirm = () => setIsOpenModalconfirm(true);
-	const handleCloseModalConfirm = () => {
-		setIsOpenModalconfirm(false);
-	};
+	const handleCloseModalConfirm = () => setIsOpenModalconfirm(false);
+	// Notifications modal
 	const handleOpenPushesModal = () => setIsPushesModal(true);
 	const handleClosePushesModal = () => setIsPushesModal(false);
+	// Upload modal
 	const handleOpenUploadModal = () => setIsUploadModal(true);
 	const handleCloseUploadModal = () => setIsUploadModal(false);
+	// Delete image modal
+	const handleOpenDeleteModal = () => setIsDeleteModal(true);
+	const handleCloseDeleteModal = () => setIsDeleteModal(false);
 
 	useEffect(() => {
 		if (token) {
@@ -116,9 +112,7 @@ function App() {
 							<Header
 								handleOpenModalConfirm={handleOpenModalConfirm}
 								handleOpenPushesModal={handleOpenPushesModal}
-								handleOpenUploadModal={handleOpenUploadModal}
 								notificationsData={notificationsData}
-								userData={userData}
 								onExit={handleLogOut}
 							/>
 							<SideNavbar />
@@ -137,13 +131,14 @@ function App() {
 							<Header
 								handleOpenModalConfirm={handleOpenModalConfirm}
 								handleOpenPushesModal={handleOpenPushesModal}
-								handleOpenUploadModal={handleOpenUploadModal}
 								notificationsData={notificationsData}
-								userData={userData}
 								onExit={handleLogOut}
 							/>
 							<SideNavbar />
-							<Profile />
+							<Profile
+								handleOpenUploadModal={handleOpenUploadModal}
+								handleOpenDeleteModal={handleOpenDeleteModal}
+							/>
 						</ProtectedRoute>
 					}
 				/>
@@ -158,9 +153,7 @@ function App() {
 							<Header
 								handleOpenModalConfirm={handleOpenModalConfirm}
 								handleOpenPushesModal={handleOpenPushesModal}
-								handleOpenUploadModal={handleOpenUploadModal}
 								notificationsData={notificationsData}
-								userData={userData}
 								onExit={handleLogOut}
 							/>
 							<SideNavbar />
@@ -185,6 +178,7 @@ function App() {
 				/>
 			)}
 			{isUploadModal && <ModalUpload onClose={handleCloseUploadModal} />}
+			{isDeleteModal && <ModalDeleteImage onClose={handleCloseDeleteModal} />}
 		</div>
 	);
 }

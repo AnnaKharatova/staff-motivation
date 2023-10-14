@@ -2,17 +2,16 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './Header.scss';
 import photoProfile from '../../../images/plug.svg';
+import { useUser } from '../../context/UserContext';
 
 function Header({
 	notificationsData,
 	handleOpenModalConfirm,
 	handleOpenPushesModal,
-	userData,
-	// handleOpenUploadModal, // временное решение
 }) {
-	// const [pushes, setPushes] = useState([]);
+	const { userData } = useUser();
 	const pushesCount = notificationsData.length;
-
+	// инициалы
 	const firstNameInitial = userData.first_name
 		? userData.first_name.charAt(0).toUpperCase()
 		: '';
@@ -21,6 +20,8 @@ function Header({
 		: '';
 	const initials = `${firstNameInitial}${lastNameInitial}`;
 	const fullName = `${userData.first_name} ${userData.last_name}`;
+	// фото
+
 	// анимация тени хедера при скролле
 	useEffect(() => {
 		const headerContainer = document.querySelector('.header');
@@ -35,23 +36,25 @@ function Header({
 
 	return (
 		<header className="header">
-			{/* //временная кнопка открытия модального окна */}
-			{/* <button className='button-photo' onClick={handleOpenUploadModal}>Upload</button> */}
 			<div className="header__container">
 				<div className="header__logo">Motivation System</div>
 				<div className="header__user-info">
-					{userData.image === null ? (
+					{userData === null ? (
 						<div className="header__plug">{initials}</div>
 					) : (
 						<img
 							className="header__photo"
-							src={userData.image || photoProfile}
+							src={(userData && userData.image) || photoProfile}
 							alt="Фотография сотрудника"
 						/>
 					)}
 					<div className="header__details">
 						<div className="header__name">{fullName}</div>
-						<div className="header__position">{userData.department}</div>
+						<div className="header__position">
+							{userData.department === 'None'
+								? 'Не указан'
+								: userData.department}
+						</div>
 					</div>
 				</div>
 				<div className="header__user-points">
@@ -99,7 +102,6 @@ export default Header;
 Header.propTypes = {
 	handleOpenModalConfirm: PropTypes.func.isRequired,
 	handleOpenPushesModal: PropTypes.func.isRequired,
-	// handleOpenUploadModal: PropTypes.func.isRequired,
 	notificationsData: PropTypes.arrayOf(
 		PropTypes.shape({
 			id: PropTypes.number.isRequired,
@@ -124,7 +126,7 @@ Header.defaultProps = {
 	userData: {
 		first_name: 'Имя',
 		last_name: 'Фамилия',
-		image: { photoProfile },
+		image: photoProfile,
 		department: 'Опредляется',
 		reward_points_for_current_month: 0,
 		reward_points: 0,
