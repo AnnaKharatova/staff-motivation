@@ -9,7 +9,6 @@ function DepartmentTask({ task, onClick }) {
 	const date = new Date(deadline);
 	const options = { day: 'numeric', month: 'long' };
 	const formattedDate = date.toLocaleDateString('ru-RU', options);
-
 	const [statusName, setStatusName] = useState('');
 	const [titleClassName, setTitleClassName] = useState('mytask__title');
 	const [statusClassName, setStatusClassName] = useState('mytask__status');

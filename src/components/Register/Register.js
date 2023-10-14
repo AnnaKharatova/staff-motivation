@@ -13,11 +13,9 @@ import Modal from '../App/Modal/Modal';
 import styles from '../App/Modal/Modal.module.scss';
 
 function Register() {
-	// поменяй  false на true, что бы посмтореть на модалку
 	const [isOpen, setIsOpen] = useState(false);
 	const modalRef = useRef(null);
 	const navigate = useNavigate();
-
 	const {
 		register,
 		handleSubmit,
@@ -27,7 +25,6 @@ function Register() {
 		mode: 'onChange',
 		resolver: yupResolver(RegisterSchema),
 	});
-
 	const [isError, setIsError] = useState(false);
 	const [error, setError] = useState(null);
 	const [isPasswordHidden, setPasswordHidden] = useState(false);
@@ -37,7 +34,6 @@ function Register() {
 		signup(data)
 			.then(() => {
 				navigate('/signin');
-				// setIsOpen(true);
 			})
 			.catch((err) => {
 				if (err === 400) {
@@ -76,18 +72,14 @@ function Register() {
 				setIsOpen(false);
 			}
 		};
-
 		const handleMouseDown = (event) => {
 			if (!modalRef.current || modalRef.current.contains(event.target)) {
 				return;
 			}
-
 			setIsOpen(false);
 		};
-
 		document.addEventListener('keydown', handleKeyDown);
 		document.addEventListener('mousedown', handleMouseDown);
-
 		return () => {
 			document.removeEventListener('keydown', handleKeyDown);
 			document.removeEventListener('mousedown', handleMouseDown);

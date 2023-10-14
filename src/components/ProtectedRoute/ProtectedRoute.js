@@ -26,6 +26,3 @@ ProtectedRoute.propTypes = {
 ProtectedRoute.defaultProps = {
 	children: null,
 };
-/* ProtectedRoute.defaultProps = {
-	component: null,
-}; */

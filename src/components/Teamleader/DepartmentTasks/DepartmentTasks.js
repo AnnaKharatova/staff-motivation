@@ -25,7 +25,6 @@ function DepartmentTasks({
 		<ul className="department-tasks__departments">
 			<button
 				type="button"
-				// className="department-tasks__department"
 				className={
 					!isOpenTasksList
 						? 'department-tasks__department'
@@ -97,17 +96,3 @@ DepartmentTasks.defaultProps = {
 		department: 'Маркетинг',
 	},
 };
-
-/* array: PropTypes.arrayOf(
-		  PropTypes.shape({
-			id: PropTypes.number.isRequired,
-			status: PropTypes.string.isRequired,
-			reward_points: PropTypes.number.isRequired,
-			title: PropTypes.string.isRequired,
-			description: PropTypes.string.isRequired,
-			created_at: PropTypes.string.isRequired,
-			deadline: PropTypes.string.isRequired,
-			assigned_to: PropTypes.number.isRequired,
-			department: PropTypes.string.isRequired,
-		  })
-		) */

@@ -1,4 +1,55 @@
-// export const BASE_URL = 'http://185.41.163.109';
+import hands from '../images/profile/image 26.jpg';
+import darts from '../images/profile/Image.jpg';
+import rocket from '../images/profile/image 32.svg';
+import list from '../images/profile/image 31.jpg';
+import hat from '../images/profile/image 25.jpg';
+import arrow from '../images/profile/image 30.jpg';
+
+export const trackRecordsList = [
+	{
+		id: 101,
+		image: hat,
+		title: 'Мастер своего дела',
+		discription: 'Получить уровень Middle',
+		percent: 100,
+	},
+	{
+		id: 102,
+		image: arrow,
+		title: 'Git Гуру',
+		discription: 'Сделать 100 коммитов',
+		percent: 68,
+	},
+	{
+		id: 103,
+		image: darts,
+		title: 'Прямо в цель',
+		discription: 'Запустить 5 проектов',
+		percent: 20,
+	},
+
+	{
+		id: 104,
+		image: rocket,
+		title: 'Просто космос',
+		discription: 'Получить новый Hard Skill',
+		percent: 100,
+	},
+	{
+		id: 106,
+		image: list,
+		title: 'Как Лев Толстой',
+		discription: 'Написать 2 статьи для сайта',
+		percent: 50,
+	},
+	{
+		id: 107,
+		image: hands,
+		title: 'Социальная сеть',
+		discription: 'Найти 5 новых друзей в сфере',
+		percent: 0,
+	},
+];
 
 export const tasksList = [
 	{
