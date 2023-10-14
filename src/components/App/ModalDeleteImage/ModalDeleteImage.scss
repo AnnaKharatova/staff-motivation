@@ -78,16 +78,16 @@
 		color: #8247e5;
 		font-weight: 500;
 		font-size: 16px;
-        text-align: center;
+		text-align: center;
 		background-color: transparent;
 		padding: 4px 12px;
 		border: none;
-        cursor: pointer;
-        transition: opacity .2s linear;
+		cursor: pointer;
+		transition: opacity 0.2s linear;
 
-        &:hover {
-            opacity: .8;
-        }
+		&:hover {
+			opacity: 0.8;
+		}
 
 		&_confirm {
 			border: 1px solid #a673ef;
