@@ -14,7 +14,6 @@ import styles from '../App/Modal/Modal.module.scss';
 
 function NewPassword() {
 	const navigate = useNavigate();
-	// поменяй  false на true, что бы посмтореть на модалку
 	const [isOpen, setIsOpen] = useState(false);
 	const handleLogin = () => {
 		navigate('/signin');

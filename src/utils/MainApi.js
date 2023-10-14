@@ -1,7 +1,6 @@
 // const BASE_URL = process.env.REACT_APP_BASE_URL;
 const BASE_URL = 'http://31.129.110.130';
 
-const token = localStorage.getItem('token');
 // const token = 'c0faa7cbff18fbd7a5c2bdb12ee732506405147d';
 
 const checkResponse = (res) => {
@@ -12,6 +11,7 @@ const checkResponse = (res) => {
 };
 
 export function uploadImage(file, id) {
+	const token = localStorage.getItem('token');
 	const formData = new FormData();
 	formData.append('image', file);
 	return fetch(`${BASE_URL}/api/users/${id}/upload_image/`, {
@@ -26,6 +26,7 @@ export function uploadImage(file, id) {
 
 // Header
 export function getUserData() {
+	const token = localStorage.getItem('token');
 	return fetch(`${BASE_URL}/api/curent_user_info/`, {
 		method: 'GET',
 		headers: {
@@ -37,6 +38,7 @@ export function getUserData() {
 }
 
 export function getNotification() {
+	const token = localStorage.getItem('token');
 	return fetch(`${BASE_URL}/api/user/my_notifications/`, {
 		method: 'GET',
 		headers: {
@@ -47,8 +49,10 @@ export function getNotification() {
 	}).then(checkResponse);
 }
 
-// Главная страница
+/* Главная страница */
+
 export function getUsersProgress() {
+	const token = localStorage.getItem('token');
 	return fetch(`${BASE_URL}/api/progress/users/`, {
 		method: 'GET',
 		headers: {
@@ -61,6 +65,7 @@ export function getUsersProgress() {
 
 // блок 'Мои задачи'
 export function getTasks() {
+	const token = localStorage.getItem('token');
 	return fetch(`${BASE_URL}/api/tasks/`, {
 		method: 'GET',
 		headers: {
@@ -72,6 +77,7 @@ export function getTasks() {
 }
 
 export function getTaskInfo(id) {
+	const token = localStorage.getItem('token');
 	return fetch(`${BASE_URL}/api/tasks/${id}/`, {
 		method: 'GET',
 		headers: {
@@ -83,7 +89,7 @@ export function getTaskInfo(id) {
 }
 
 export function confirmTask(id, data) {
-	console.log(data);
+	const token = localStorage.getItem('token');
 	return fetch(`${BASE_URL}/api/tasks/${id}/send_for_review/`, {
 		method: 'POST',
 		headers: {
@@ -95,10 +101,12 @@ export function confirmTask(id, data) {
 	}).then(checkResponse);
 }
 
-// Profile
+/*  Profile */
 
 // Личные данные
 export function getUsersInfo() {
+	const token = localStorage.getItem('token');
+
 	return fetch(`${BASE_URL}/api/users/me/`, {
 		method: 'GET',
 		headers: {
@@ -109,6 +117,7 @@ export function getUsersInfo() {
 }
 
 export function setUsersInfo(data) {
+	const token = localStorage.getItem('token');
 	const currentData = [
 		{
 			contact_type: 'phone',
@@ -169,6 +178,7 @@ export function login(email, password) {
 
 // запрос на смену пароля
 export function changePassword(email) {
+	const token = localStorage.getItem('token');
 	return fetch(`${BASE_URL}/api/users/reset_password/`, {
 		method: 'POST',
 		headers: {
@@ -192,6 +202,7 @@ function request(url, options) {
 }
 
 export function setPassword(data) {
+	const token = localStorage.getItem('token');
 	const currentData = {
 		first_name: data.firstName,
 		last_name: data.lastName,

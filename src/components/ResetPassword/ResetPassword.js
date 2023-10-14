@@ -1,8 +1,6 @@
 import './ResetPassword.scss';
 import { useState, useEffect, useRef } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-
-// import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ResetPasswordSchema } from '../../utils/ValidationSchemes';
@@ -14,11 +12,9 @@ import logo1 from '../../images/CircleWavyCheck.svg';
 import styles from '../App/Modal/Modal.module.scss';
 
 export default function ResetPassword() {
-	// поменяй  false на true, что бы посмтореть на модалку
 	const [isOpen, setIsOpen] = useState(false);
 	const navigate = useNavigate();
 	const modalRef = useRef(null);
-
 	const {
 		register,
 		handleSubmit,
@@ -28,7 +24,6 @@ export default function ResetPassword() {
 		mode: 'onTouched',
 		resolver: yupResolver(ResetPasswordSchema),
 	});
-
 	const [isError, setIsError] = useState(false);
 	const [error, setError] = useState(null);
 
@@ -38,17 +33,14 @@ export default function ResetPassword() {
 				setIsOpen(false);
 			}
 		};
-
 		const handleMouseDown = (event) => {
 			if (!modalRef.current || modalRef.current.contains(event.target)) {
 				return;
 			}
 			setIsOpen(false);
 		};
-
 		document.addEventListener('keydown', handleKeyDown);
 		document.addEventListener('mousedown', handleMouseDown);
-
 		return () => {
 			document.removeEventListener('keydown', handleKeyDown);
 			document.removeEventListener('mousedown', handleMouseDown);
@@ -149,9 +141,3 @@ export default function ResetPassword() {
 		</div>
 	);
 }
-
-/*
-ResetPassword.propTypes = {
-	onResetPassword: PropTypes.func.isRequired,
-};
-*/

@@ -1,7 +1,8 @@
 import './WorkExperience.scss';
 import React from 'react';
+import PropTypes from 'prop-types';
 
-function WorkExperience() {
+function WorkExperience({ hardSkills }) {
 	return (
 		<section className="section">
 			<h2 className="section__title">Рaбочий стаж</h2>
@@ -9,15 +10,18 @@ function WorkExperience() {
 			<p className="section__text">Рабочий стаж в компании: 3 года 2 месяца</p>
 			<h2 className="section__title">HardSkills</h2>
 			<ul className="section__hardskills-list">
-				<li className="section__hardskills-item">Python</li>
-				<li className="section__hardskills-item">Django</li>
-				<li className="section__hardskills-item">PostgreSQL</li>
-				<li className="section__hardskills-item">MySQL</li>
-				<li className="section__hardskills-item">Docker</li>
-				<li className="section__hardskills-item">Swagger</li>
+				{hardSkills.map((skill) => (
+					<li className="section__hardskills-item" key={skill}>
+						{skill.name}
+					</li>
+				))}
 			</ul>
 		</section>
 	);
 }
 
 export default WorkExperience;
+
+WorkExperience.propTypes = {
+	hardSkills: PropTypes.node.isRequired,
+};

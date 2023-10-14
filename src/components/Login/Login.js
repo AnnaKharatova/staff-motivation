@@ -7,27 +7,28 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { LoginSchema } from '../../utils/ValidationSchemes';
 import * as MainApi from '../../utils/MainApi';
 import { ERROR_MESSAGES } from '../../utils/Config';
-// логотипы должны быть в самом низу
 import logo from '../../images/M-check.svg';
 import eyeButton from '../../images/Icon-hidden-pass.svg';
 
-export default function Login({ setLoggedIn }) {
+export default function Login({
+	setLoggedIn,
+	isCheckboxPressed,
+	setCheckboxPressed,
+}) {
 	const navigate = useNavigate();
-	// react-hook-form useForm
 	const {
 		register,
 		handleSubmit,
 		// getValues,
-		watch, // для отслеживания input value
+		watch,
 		formState: { errors, isValid, isDirty },
 	} = useForm({
 		mode: 'onTouched',
 		resolver: yupResolver(LoginSchema),
 	});
 	// чекбокс для "Запомнить меня"
-	const [isRememberMePressed, setIsRememberMePressed] = useState(false);
 	const handleIsRememberMePressed = () => {
-		setIsRememberMePressed(!isRememberMePressed);
+		setCheckboxPressed(!isCheckboxPressed);
 	};
 
 	// стейт скрытого пароля
@@ -150,7 +151,7 @@ export default function Login({ setLoggedIn }) {
 							>
 								<input
 									className="login__checkbox"
-									checked={isRememberMePressed}
+									checked={isCheckboxPressed}
 									onChange={handleRememberButton}
 									id="remember-checkbox"
 									type="checkbox"
@@ -182,9 +183,6 @@ export default function Login({ setLoggedIn }) {
 }
 Login.propTypes = {
 	setLoggedIn: PropTypes.func.isRequired,
-	// removeToken: PropTypes.func.isRequired,
-	// handleIsRememberMePressed: PropTypes.func.isRequired,
-	// onSignIn: PropTypes.func.isRequired,
-	// isPasswordHidden: PropTypes.bool.isRequired,
-	// onHidePasswordClick: PropTypes.func.isRequired,
+	isCheckboxPressed: PropTypes.bool.isRequired,
+	setCheckboxPressed: PropTypes.func.isRequired,
 };

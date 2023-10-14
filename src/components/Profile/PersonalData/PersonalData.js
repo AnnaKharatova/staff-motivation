@@ -1,14 +1,15 @@
 import { useForm } from 'react-hook-form';
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import './PersonalData.scss';
 import PropTypes from 'prop-types';
 import ModalMenuImage from './ModalMenuImage/ModalMenuImage';
-import changePhoto from '../../../images/change-photo.svg';
-import { getUsersInfo, setUsersInfo } from '../../../utils/MainApi';
 import { useUser } from '../../context/UserContext';
+import { setUsersInfo } from '../../../utils/MainApi';
+import changePhoto from '../../../images/change-photo.svg';
 
 function PersonalData({
+	personalData,
+	contacts,
 	handleOpenUploadModal,
 	handleOpenModalMenu,
 	handleCloseModalMenu,
@@ -18,11 +19,7 @@ function PersonalData({
 	const { register, handleSubmit } = useForm({
 		mode: 'onTouched',
 	});
-	const navigate = useNavigate();
-	const [personalData, setPersonalData] = useState([]);
-	const [contacts, setContacts] = useState([]);
 	const { userData } = useUser();
-	// инифицалы
 	const firstNameInitial = personalData.first_name
 		? personalData.first_name.charAt(0).toUpperCase()
 		: '';
@@ -31,20 +28,6 @@ function PersonalData({
 		: '';
 	const initials = `${firstNameInitial}${lastNameInitial}`;
 	const fullName = `${personalData.first_name} ${personalData.last_name}`;
-
-	useEffect(() => {
-		getUsersInfo()
-			.then((data) => {
-				setContacts(data.contacts);
-				setPersonalData(data);
-			})
-			.catch((res) => {
-				if (res === 500) {
-					navigate('/server-error');
-				}
-				console.log(res);
-			});
-	}, [navigate]);
 
 	function handlePersonalData(data) {
 		setUsersInfo(data)
@@ -99,7 +82,7 @@ function PersonalData({
 						<input
 							className="personal-data__input "
 							defaultValue={contacts.phone || ''}
-							type="text"
+							type="number"
 							name="phone"
 							id="phone"
 							{...register('phone', { required: false })}
@@ -200,12 +183,37 @@ function PersonalData({
 	);
 }
 
+export default PersonalData;
+
 PersonalData.propTypes = {
 	handleOpenUploadModal: PropTypes.func.isRequired,
 	handleOpenModalMenu: PropTypes.func.isRequired,
 	handleCloseModalMenu: PropTypes.func.isRequired,
 	handleOpenDeleteModal: PropTypes.func.isRequired,
 	isMenuModal: PropTypes.bool.isRequired,
+	contacts: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+	personalData: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
-export default PersonalData;
+PersonalData.defaultProps = {
+	personalData: {
+		first_name: 'Имя',
+		last_name: 'Фамилия',
+		image: '',
+		department: 'Опредляется',
+		reward_points_for_current_month: 0,
+		reward_points: 0,
+		rating: 0,
+		birthday: '',
+		email: '',
+		role: '',
+		position: '',
+	},
+
+	contacts: {
+		linkedin: '',
+		github: '',
+		telegram: '',
+		phone: '',
+	},
+};

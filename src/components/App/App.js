@@ -18,6 +18,7 @@ import ModalDeleteImage from './ModalDeleteImage/ModalDeleteImage';
 import { useUser } from '../context/UserContext';
 import Notifications from './Header/Notifications/Notifications';
 import { getUserData, getNotification } from '../../utils/MainApi';
+import DevelopingPage from './DevelopingPage/DevelopingPage';
 
 function App() {
 	const [loggedIn, setLoggedIn] = useState(false);
@@ -29,7 +30,16 @@ function App() {
 	const [notificationsData, setNotificationsData] = useState([]);
 	const { setUserData } = useUser();
 	const navigate = useNavigate();
+	const [isCheckboxPressed, setCheckboxPressed] = useState(true);
 	const token = localStorage.getItem('token');
+
+	function removeToken() {
+		if (!isCheckboxPressed) {
+			localStorage.removeItem('token');
+		}
+		window.removeEventListener('beforeunload', removeToken);
+	}
+	window.addEventListener('beforeunload', removeToken);
 
 	useEffect(() => {
 		if (loggedIn) {
@@ -48,7 +58,7 @@ function App() {
 					console.log(res);
 				});
 		}
-	}, [navigate, loggedIn, setUserData]);
+	}, [navigate, loggedIn, token, setUserData]);
 
 	const handleLogOut = () => {
 		setLoggedIn(false);
@@ -161,9 +171,38 @@ function App() {
 						</ProtectedRoute>
 					}
 				/>
+				<Route
+					path="/developing-page"
+					element={
+						<ProtectedRoute
+							loggedIn={loggedIn}
+							isLoading={isLoading}
+							key={loggedIn}
+						>
+							<Header
+								handleOpenModalConfirm={handleOpenModalConfirm}
+								handleOpenPushesModal={handleOpenPushesModal}
+								handleOpenUploadModal={handleOpenUploadModal}
+								notificationsData={notificationsData}
+								onExit={handleLogOut}
+							/>
+							<SideNavbar />
+							<DevelopingPage />
+						</ProtectedRoute>
+					}
+				/>
 				<Route path="/signup" element={<Register />} />
 				<Route path="/new-password" element={<NewPassword />} />
-				<Route path="/signin" element={<Login setLoggedIn={setLoggedIn} />} />
+				<Route
+					path="/signin"
+					element={
+						<Login
+							setLoggedIn={setLoggedIn}
+							isCheckboxPressed={isCheckboxPressed}
+							setCheckboxPressed={setCheckboxPressed}
+						/>
+					}
+				/>
 				<Route path="/reset-password" element={<ResetPassword />} />
 				<Route path="/server-error" element={<ServerError />} />
 				{/* роут для ошибки 404 */}
@@ -184,11 +223,3 @@ function App() {
 }
 
 export default App;
-
-/* const [isCheckboxPressed, setCheckboxPressed] = useState(false)
- function removeToken() {
-	if(!isCheckboxPressed){
-	localStorage.removeItem('token');
-  }
-}
-  window.addEventListener('unload', removeToken) */

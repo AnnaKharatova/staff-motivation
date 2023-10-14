@@ -1,0 +1,80 @@
+.section {
+	&__header {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
+	&__data {
+		align-self: center;
+		color: #525c76;
+		font-size: 14px;
+		font-weight: 500;
+		line-height: 160%;
+	}
+
+	&__diagram {
+		gap: 17px;
+		display: flex;
+		flex-direction: row;
+
+		&-image {
+			width: 126px;
+			height: 126px;
+		}
+
+		&-caption {
+			flex-direction: column;
+			margin-top: 40px;
+		}
+
+		&-progress {
+			width: 126px;
+			height: 126px;
+			border-radius: 70%;
+			border: 2px solid black;
+			box-sizing: border-box;
+		}
+	}
+
+	&__progress {
+		width: 120px;
+		height: 120px;
+		position: relative;
+		display: inline-block;
+
+		&-circle {
+			transform: rotate(-90deg);
+			background-color: #fff5ce;
+			border-radius: 50%;
+			width: 120px;
+			height: 120px;
+			align-self: center;
+
+		}
+
+		&-bar {
+			fill: transparent;
+			stroke: #ffad0d;
+			stroke-width: 7;
+			stroke-dasharray: 339;
+			stroke-dashoffset: 0;
+			transition: stroke-dashoffset 0.5s ease;
+			stroke-linecap: round;
+		}
+
+		&-number {
+			display: block;
+			position: absolute;
+			top: 30%;
+			left: 40%;
+			z-index: 3;
+			color: #0f1d40;
+			font-size: 18px;
+			font-style: normal;
+			font-weight: 400;
+			line-height: 24px;
+		}
+
+	}
+}

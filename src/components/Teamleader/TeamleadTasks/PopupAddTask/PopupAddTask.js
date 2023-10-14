@@ -13,7 +13,6 @@ function PopupAddTask({ setPopupAddTaskOpen }) {
 		'Андреев Андрей',
 		'Кирилов Кирил',
 	];
-
 	const {
 		register,
 		handleSubmit,

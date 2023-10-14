@@ -1,123 +1,94 @@
 import './TrackRecord.scss';
-import React from 'react';
-import master from '../../../images/profile/image 25.jpg';
-import hands from '../../../images/profile/image 26.jpg';
-import darts from '../../../images/profile/Image.jpg';
-import rocket from '../../../images/profile/image 32.svg';
-import list from '../../../images/profile/image 31.jpg';
-import arrow from '../../../images/profile/image 30.jpg';
+import React, { useState } from 'react';
+import { trackRecordsList } from '../../../utils/constants';
 
 function TrackRecord() {
+	const [tracksArray, setTracksArray] = useState(trackRecordsList);
+	const [allTracksButton, setAllTrackButton] = useState(true);
+	const [activeTracksButton, setActiveTracksButton] = useState(false);
+	const [doneTracksButton, setDoneTracksButton] = useState(false);
+
+	function handleAllTracksSort() {
+		setAllTrackButton(true);
+		setActiveTracksButton(false);
+		setDoneTracksButton(false);
+		setTracksArray(trackRecordsList);
+	}
+
+	function handleActiveTracksSort() {
+		setAllTrackButton(false);
+		setActiveTracksButton(true);
+		setDoneTracksButton(false);
+		const filteredTasks = trackRecordsList.filter((i) => i.percent < 100);
+		setTracksArray(filteredTasks);
+	}
+
+	function handleDoneTracksSort() {
+		setAllTrackButton(false);
+		setActiveTracksButton(false);
+		setDoneTracksButton(true);
+		const filteredTasks = trackRecordsList.filter((i) => i.percent === 100);
+		setTracksArray(filteredTasks);
+	}
+
 	return (
 		<section className="trackrecord">
 			<h2 className="trackrecord__main-title">Задания</h2>
 			<nav className="trackrecord__nav">
-				<button className="tasks__sort-button tasks__sort-button-active">
+				<button
+					className={
+						allTracksButton
+							? 'tasks__sort-button tasks__sort-button-active'
+							: 'tasks__sort-button'
+					}
+					onClick={handleAllTracksSort}
+				>
 					Все
 				</button>
-				<button className="tasks__sort-button">Активные</button>
-				<button className="tasks__sort-button">Выполненные</button>
+				<button
+					className={
+						activeTracksButton
+							? 'tasks__sort-button tasks__sort-button-active'
+							: 'tasks__sort-button'
+					}
+					onClick={handleActiveTracksSort}
+				>
+					Активные
+				</button>
+				<button
+					className={
+						doneTracksButton
+							? 'tasks__sort-button tasks__sort-button-active'
+							: 'tasks__sort-button'
+					}
+					onClick={handleDoneTracksSort}
+				>
+					Выполненные
+				</button>
 			</nav>
 			<ul className="trackrecord__items">
-				<li className="trackrecord__item">
-					<img
-						className="trackrecord__image"
-						src={master}
-						alt="символическое изображение задания"
-					/>
-					<div className="trackrecord__info">
-						<p className="trackrecord__title">Мастер своего дела</p>
-						<div className="trackrecord__progress">
-							<p className="trackrecord__subtitle">Получить уровень Middle</p>
-							<p className="trackrecord__procent">100%</p>
+				{tracksArray.map((track) => (
+					<li className="trackrecord__item" key={track.id}>
+						<img
+							className="trackrecord__image"
+							src={track.image}
+							alt="символическое изображение задания"
+						/>
+						<div className="trackrecord__info">
+							<p className="trackrecord__title">{track.title}</p>
+							<div className="trackrecord__progress">
+								<p className="trackrecord__subtitle">{track.discription}</p>
+								<p className="trackrecord__procent">{track.percent} %</p>
+							</div>
+							<div className="trackrecord__bar">
+								<div
+									className="trackrecord__fill"
+									style={{ width: `${track.percent}%` }}
+								/>
+							</div>
 						</div>
-						<div className="trackrecord__diagram">{}</div>
-					</div>
-				</li>
-
-				<li className="trackrecord__item">
-					<img
-						className="trackrecord__image"
-						src={hands}
-						alt="символическое изображение задания"
-					/>
-					<div className="trackrecord__info">
-						<p className="trackrecord__title">Git Гуру</p>
-						<div className="trackrecord__progress">
-							<p className="trackrecord__subtitle">Сделать 100 коммитов</p>
-							<p className="trackrecord__procent trackrecord__procent">100%</p>
-						</div>
-						<div className="trackrecord__diagram">{}</div>
-					</div>
-				</li>
-
-				<li className="trackrecord__item">
-					<img
-						className="trackrecord__image"
-						src={darts}
-						alt="символическое изображение задания"
-					/>
-					<div className="trackrecord__info">
-						<p className="trackrecord__title">Прямо в цель</p>
-						<div className="trackrecord__progress">
-							<p className="trackrecord__subtitle">Запустить 6 проектов</p>
-							<p className="trackrecord__procent">100%</p>
-						</div>
-						<div className="trackrecord__diagram">{}</div>
-					</div>
-				</li>
-
-				<li className="trackrecord__item">
-					<img
-						className="trackrecord__image"
-						src={rocket}
-						alt="символическое изображение задания"
-					/>
-					<div className="trackrecord__info">
-						<p className="trackrecord__title">Просто космос</p>
-						<div className="trackrecord__progress">
-							<p className="trackrecord__subtitle">Получить новый Hard Skill</p>
-							<p className="trackrecord__procent">100%</p>
-						</div>
-						<div className="trackrecord__diagram">{}</div>
-					</div>
-				</li>
-
-				<li className="trackrecord__item">
-					<img
-						className="trackrecord__image"
-						src={list}
-						alt="символическое изображение задания"
-					/>
-					<div className="trackrecord__info">
-						<p className="trackrecord__title">Как Лев Толстой</p>
-						<div className="trackrecord__progress">
-							<p className="trackrecord__subtitle">
-								Написать 2 статьи для сайта
-							</p>
-							<p className="trackrecord__procent">100%</p>
-						</div>
-						<div className="trackrecord__diagram">{}</div>
-					</div>
-				</li>
-
-				<li className="trackrecord__item">
-					<img
-						className="trackrecord__image"
-						src={arrow}
-						alt="символическое изображение задания"
-					/>
-					<div className="trackrecord__info">
-						<p className="trackrecord__title">Социальная сеть</p>
-						<div className="trackrecord__progress">
-							<p className="trackrecord__subtitle">
-								Найти 5 новых друзей в сфере IT
-							</p>
-							<p className="trackrecord__procent">100%</p>
-						</div>
-						<div className="trackrecord__diagram">{}</div>
-					</div>
-				</li>
+					</li>
+				))}
 			</ul>
 		</section>
 	);
