@@ -42,7 +42,7 @@ function MyTasks() {
 	useEffect(() => {
 		getTasks()
 			.then((data) => {
-				const sort = data.tasks.sort(
+				const sort = data.sort(
 					(a, b) => new Date(a.created_at) - new Date(b.created_at)
 				);
 				setTasksArray(sort);
@@ -90,7 +90,9 @@ function MyTasks() {
 		setTimeOutTasksButton(false);
 		setInApproveTasksButton(false);
 		setActiveTaskstButton(false);
-		setTasksArray(storagedArray);
+		if (storagedArray) {
+			setTasksArray(storagedArray);
+		}
 	}
 
 	function handleActiveTasksSort() {
@@ -98,10 +100,12 @@ function MyTasks() {
 		setActiveTaskstButton(true);
 		setTimeOutTasksButton(false);
 		setInApproveTasksButton(false);
-		const filteredTasks = storagedArray.filter(
-			(task) => task.status === 'created' || task.status === 'reject'
-		);
-		setTasksArray(filteredTasks);
+		if (storagedArray) {
+			const filteredTasks = storagedArray.filter(
+				(task) => task.status === 'created' || task.status === 'reject'
+			);
+			setTasksArray(filteredTasks);
+		}
 	}
 
 	function handleInApproveSort() {
@@ -109,10 +113,12 @@ function MyTasks() {
 		setActiveTaskstButton(false);
 		setAllTasksButton(false);
 		setTimeOutTasksButton(false);
-		const filteredTasks = storagedArray.filter(
-			(task) => task.status === 'sent_for_review'
-		);
-		setTasksArray(filteredTasks);
+		if (storagedArray) {
+			const filteredTasks = storagedArray.filter(
+				(task) => task.status === 'sent_for_review'
+			);
+			setTasksArray(filteredTasks);
+		}
 	}
 
 	function handleTimeOutSort() {
@@ -120,10 +126,12 @@ function MyTasks() {
 		setInApproveTasksButton(false);
 		setActiveTaskstButton(false);
 		setAllTasksButton(false);
-		const filteredTasks = storagedArray.filter(
-			(task) => task.status === 'Просрочена'
-		);
-		setTasksArray(filteredTasks);
+		if (storagedArray) {
+			const filteredTasks = storagedArray.filter(
+				(task) => task.status === 'Просрочена'
+			);
+			setTasksArray(filteredTasks);
+		}
 	}
 
 	function handleDeadlineSort() {
@@ -214,7 +222,7 @@ function MyTasks() {
 					}
 					onClick={handleAllTasksSort}
 				>
-					Все задачи
+					Все&nbsp;задачи
 				</button>
 				<button
 					className={
@@ -224,7 +232,7 @@ function MyTasks() {
 					}
 					onClick={handleActiveTasksSort}
 				>
-					В работе
+					В&nbsp;работе
 				</button>
 				<button
 					className={
@@ -234,7 +242,7 @@ function MyTasks() {
 					}
 					onClick={handleInApproveSort}
 				>
-					На подтверждении
+					На&nbsp;подтверждении
 				</button>
 
 				<button
@@ -250,7 +258,7 @@ function MyTasks() {
 
 				<button className="tasks__filter" onClick={handleDeadlineSort}>
 					<div className="tasks__filter-title">
-						Сортировать по дате дедлайна
+						Сортировать&nbsp;по&nbsp;дате&nbsp;дедлайна
 					</div>
 					<img
 						className="tasks__filter-img"

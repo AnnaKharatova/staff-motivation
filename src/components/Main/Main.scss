@@ -1,17 +1,23 @@
 .main-page {
+	max-width: 1440px;
 	display: block;
-	position: relative;
 	min-height: 100%;
-	background-color: #eeeff2;
+	background-color: #f5f6f7;
+	flex-grow: 1;
 }
 
 .main-page__section {
-	position: absolute;
-	top: 108px;
-	left: 20%;
-	margin-top: 44px;
+	display: block;
+	margin-left: 260px;
 }
 
 .main-page__block {
 	display: flex;
+	padding-top: 150px;
+}
+
+@media (max-width: 1240px) {
+	.main-page__section {
+		margin-left: 210px;
+	}
 }

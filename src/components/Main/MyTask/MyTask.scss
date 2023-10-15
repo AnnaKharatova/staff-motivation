@@ -45,7 +45,7 @@
 		align-self: end;
 		padding-bottom: 5px;
 		margin: 0;
-		width: 15%;
+		width: 150px;
 		font-size: 14px;
 		font-style: normal;
 		font-weight: 500;
@@ -149,8 +149,31 @@
 		align-self: self-end;
 		padding-bottom: 5px;
 		margin: 0;
+
 		&-done {
 			color: #b2b7c2;
+		}
+	}
+}
+
+@media (max-width: 1240px) {
+	.mytask {
+		&__title {
+			width: 200px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	}
+}
+
+@media (max-width: 1024px) {
+	.mytask {
+		&__score {
+			width: 10%;
+		}
+		&__data {
+			width: 12%;
 		}
 	}
 }

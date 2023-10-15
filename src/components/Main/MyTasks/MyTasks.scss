@@ -1,8 +1,8 @@
 .tasks {
 	position: relative;
-	margin: 37px 0 0 0;
+	margin: 37px 0 0 27px;
 	max-width: 1087px;
-	border-radius: 24px;
+	border-radius: 26px;
 	background-color: #fff;
 	display: flex;
 	flex-direction: column;
@@ -96,7 +96,7 @@
 		position: absolute;
 		margin-top: 15px;
 		background: #ffffff;
-		border-radius: 6px;
+		border-radius: 8px;
 		border: 1px solid #e2e4e8;
 		padding: 10px 0;
 		width: 526px;
@@ -209,6 +209,85 @@
 		&:active {
 			background-color: #8247e5;
 			color: #fff;
+		}
+	}
+}
+
+.tasks__sort-button {
+	margin-right: 7px;
+}
+
+.tasks__sort-button-active {
+	margin-right: 8px;
+}
+
+.tasks__nav {
+	margin-left: 20px;
+	width: 100%;
+}
+
+.popup {
+	&__container {
+		width: 458px;
+		height: 80%;
+		top: 11%;
+		left: 66%;
+	}
+
+	&__header {
+		padding-top: 38px;
+		padding-bottom: 26px;
+		width: 80%;
+	}
+
+	&__status {
+		width: 80%;
+		padding-bottom: 3px;
+	}
+
+	&__description-title {
+		width: 80%;
+		padding-top: 12px;
+	}
+
+	&__description-text {
+		width: 80%;
+		padding-bottom: 10px;
+	}
+
+	&__description {
+		width: 80%;
+		padding-top: 5px;
+	}
+
+	&__button {
+		margin-bottom: 32px;
+		margin-left: 10%;
+		margin-top: 58px;
+	}
+}
+
+
+@media (max-width: 1024px) {
+	.tasks {
+		margin: 24px;
+		max-width: 753px;
+
+		&__title {
+			margin: 25px auto 20px;
+			width: 94%;
+			font-size: 20px;
+			line-height: 160%;
+		}
+
+		&__nav {
+			width: 92%;
+			margin-bottom: 5px;
+		}
+	}
+	.popup {
+		&__container {
+			left: 52%;
 		}
 	}
 }

@@ -43,14 +43,14 @@ function DinamicWork({ myDinamic, departmentDinamic }) {
 				<div className={styles.field}>
 					<div className={styles.fieldInfo}>
 						<h3 className={styles.texth3}>Достижения отдела</h3>
-						<span className={styles.progressPercentage}>
+						<span className={styles.progressPercentageDepartment}>
 							{calculatePercentage(departmentDinamic)}%
 						</span>
 					</div>
 					<div
-						className={`${styles.progressBar} ${calculateProgressBarColor(
-							departmentDinamic
-						)}`}
+						className={`${
+							styles.progressBarDepartment
+						} ${calculateProgressBarColor(departmentDinamic)}`}
 					>
 						<div
 							className={styles.progressFill}

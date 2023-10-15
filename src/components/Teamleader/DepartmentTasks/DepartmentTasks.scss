@@ -46,3 +46,19 @@
 		line-height: 160%;
 	}
 }
+
+@media (max-width: 1024px) {
+	.department-tasks {
+		&__department {
+			padding: 6px 20px;
+			gap: 15px;
+			margin: 0 0 8px 0;
+		}
+		&-title {
+			font-size: 16px;
+		}
+		&__add-task {
+			padding-left: 22px;
+		}
+	}
+}

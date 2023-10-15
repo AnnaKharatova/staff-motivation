@@ -219,10 +219,10 @@ function TeamleadTasks() {
 	}, []);
 
 	return (
-		<section className="main-page__section">
+		<section className="teamlead">
 			<div className="teamlead-tasks">
 				<h2 className="tasks__title">Управление задачами</h2>
-				<nav className="tasks__nav">
+				<nav className="tasks__nav teamlead-tasks__nav">
 					<button
 						className={
 							allTasksButton
@@ -231,7 +231,7 @@ function TeamleadTasks() {
 						}
 						onClick={handleAllTasksSort}
 					>
-						Все задачи
+						Все&nbsp;задачи
 					</button>
 					<button
 						className={
@@ -264,7 +264,10 @@ function TeamleadTasks() {
 					>
 						Просроченные
 					</button>
-					<button className="tasks__filter" onClick={handleDeadlineSort}>
+					<button
+						className="tasks__filter teamlead-tasks__filter"
+						onClick={handleDeadlineSort}
+					>
 						<div className="tasks__filter-title">
 							Сортировать по дате дедлайна
 						</div>

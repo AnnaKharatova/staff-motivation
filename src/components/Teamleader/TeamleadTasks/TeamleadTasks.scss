@@ -1,15 +1,41 @@
+.teamlead {
+	display: block;
+	margin-left: 280px;
+	padding-top: 150px;
+}
+
+@media (max-width: 1245px) {
+	.teamlead {
+		margin-left: 230px;
+	}
+}
+
 .teamlead-tasks {
-	position: relative;
-	width: 1087px;
+	max-width: 1087px;
 	border-radius: 24px;
 	background-color: #fff;
 	display: flex;
 	flex-direction: column;
 	padding-bottom: 25px;
+	margin-right: 30px;
 
 	&__popup {
 		top: 0;
 		margin: 0;
+	}
+
+	@media (max-width: 1024px) {
+		.teamlead-tasks {
+			&__nav {
+				flex-wrap: wrap;
+				gap: 4px;
+				margin-bottom: 0;
+			}
+			&__filter {
+				padding-right: 10px;
+				padding-top: 10px;
+			}
+		}
 	}
 }
 
@@ -23,4 +49,10 @@
 	width: 526px;
 	top: 0;
 	left: 59%;
+}
+
+@media (max-width: 1024px) {
+	.popup-teamlead {
+		width: 455px;
+	}
 }

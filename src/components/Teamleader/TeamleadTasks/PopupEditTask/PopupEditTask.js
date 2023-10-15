@@ -190,7 +190,7 @@ function PopupEditTask({ setPopupEditTaskOpen, popupInfo }) {
 					</label>
 
 					<button className="popup-addtask__button" type="submit">
-						Добавить задачу
+						Сохранить изменения
 					</button>
 				</form>
 			</div>

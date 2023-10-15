@@ -16,6 +16,26 @@ function MyTask({ task, onClick }) {
 	const [deadlineData, setDeadlieneData] = useState(formattedDate);
 	const [dataClass, setDataClass] = useState('mytask__data');
 	const [disablePopup, setDisablePopup] = useState(false);
+	const [desktopWidth, setDesktopWidth] = useState(true);
+	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+	useEffect(() => {
+		const handleResize = () => {
+			setWindowWidth(window.innerWidth);
+		};
+
+		window.addEventListener('resize', handleResize);
+
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
+	}, []);
+
+	useEffect(() => {
+		if (windowWidth <= 1024) {
+			setDesktopWidth(false);
+		}
+	}, [windowWidth]);
 
 	useEffect(() => {
 		if (status === 'created') {
@@ -70,11 +90,17 @@ function MyTask({ task, onClick }) {
 			onKeyDown={null}
 		>
 			<p className={titleClassName}>{title}</p>
-			<p className={ballsClassName}>{reward_points} баллов</p>
+			{desktopWidth ? (
+				<p className={ballsClassName}>{reward_points} баллов</p>
+			) : (
+				<p className={ballsClassName}>
+					{reward_points} {desktopWidth ? 'баллов' : 'Б'}
+				</p>
+			)}
 			<p className={statusClassName}>{statusName}</p>
 			<p className={dataClass}>{deadlineData}</p>
 			<button className="mytask__button" disabled={disadledButton}>
-				Подтвердить выполнение
+				Подтвердить&nbsp;выполнение
 			</button>
 		</div>
 	);

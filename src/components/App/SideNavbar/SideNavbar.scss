@@ -11,10 +11,13 @@
 	top: 152px;
 	border-radius: 0 24px 0 0;
 
+	@media (max-width: 1240px) {
+		min-width: 200px;
+	}
+
 	@media (max-width: 1025px) {
 		top: 140px;
 		height: calc(100vh - 140px);
-		width: 247px;
 	}
 
 	&__title-container {
@@ -23,6 +26,10 @@
 		gap: 8px;
 		align-items: center;
 		margin: 0 auto 68px 44px;
+
+		@media (max-width: 1240px) {
+			margin-left: 20px;
+		}
 	}
 
 	&__navigation {

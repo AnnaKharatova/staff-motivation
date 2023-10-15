@@ -10,7 +10,9 @@ function DepartmentTask({ task, onClick }) {
 	const options = { day: 'numeric', month: 'long' };
 	const formattedDate = date.toLocaleDateString('ru-RU', options);
 	const [statusName, setStatusName] = useState('');
-	const [titleClassName, setTitleClassName] = useState('mytask__title');
+	const [titleClassName, setTitleClassName] = useState(
+		'mytask__title department-task__task-title'
+	);
 	const [statusClassName, setStatusClassName] = useState('mytask__status');
 	const [deadlineData, setDeadlieneData] = useState(formattedDate);
 	const [dataClass, setDataClass] = useState('mytask__data');
@@ -23,7 +25,9 @@ function DepartmentTask({ task, onClick }) {
 
 	useEffect(() => {
 		if (status === 'is_overdue') {
-			setTitleClassName('mytask__title mytask__title-missed');
+			setTitleClassName(
+				'mytask__title department-task__task-title mytask__title-missed'
+			);
 			setStatusClassName('mytask__status mytask__status-missed');
 			setStatusName('истёк срок задачи');
 		}
@@ -32,7 +36,9 @@ function DepartmentTask({ task, onClick }) {
 	useEffect(() => {
 		if (status === 'approve') {
 			setStatusClassName('mytask__status mytask__status-prove');
-			setTitleClassName('mytask__title mytask__title-done');
+			setTitleClassName(
+				'mytask__title department-task__task-title mytask__title-done'
+			);
 			setStatusName('подтверждено');
 			setDeadlieneData(`Выполнено`);
 			setDataClass('mytask__data mytask__data-done');
@@ -48,11 +54,13 @@ function DepartmentTask({ task, onClick }) {
 						src={WarningCircle}
 						alt="Знак Внимание"
 					/>
-					<p className="department-task__title">Подтвердить</p>
+					<p className="department-task__title">подтвердить</p>
 				</div>
 			);
 			setDeadlieneData(`Выполнено`);
-			setTitleClassName('mytask__title mytask__title-done');
+			setTitleClassName(
+				'mytask__title department-task__task-title mytask__title-done'
+			);
 		}
 	}, [status]);
 

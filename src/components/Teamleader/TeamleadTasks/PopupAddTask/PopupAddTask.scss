@@ -1,7 +1,6 @@
 .popup-addtask {
 	color: #0f1d40;
 	font-size: 18px;
-	font-size: 18px;
 	font-style: normal;
 	font-weight: 500;
 	line-height: 160%;
@@ -313,5 +312,41 @@
 		font-style: normal;
 		font-weight: 500;
 		line-height: 160%;
+	}
+}
+
+@media (max-width: 1024px) {
+	.popup-addtask {
+		&__form {
+			width: 87%;
+			margin-top: -12px;
+			margin-right: 15px;
+		}
+		&__input {
+			width: 80%;
+			min-height: 30px;
+			&-bottom {
+				width: 47%;
+			}
+		}
+		&__label {
+			margin-bottom: 15px;
+			&-bottom {
+				margin-bottom: 0;
+			}
+		}
+		&__executor {
+			margin-bottom: 10px;
+		}
+		&__executors {
+			&-element {
+				height: 162px;
+				padding-top: 10px;
+			}
+		}
+		&__info {
+			width: 80%;
+			margin-bottom: 15px;
+		}
 	}
 }

@@ -3,9 +3,7 @@ $accentDarkGrey400: #525c76;
 $accentLightGrey900: #8c93a3;
 
 .achievements {
-	top: 216px;
-	right: 46.4%;
-	margin: 0;
+	margin: 0 0 0 24px;
 	width: 47%;
 	min-height: 134px;
 	background-color: #fff;
@@ -74,5 +72,43 @@ $accentLightGrey900: #8c93a3;
 		line-height: 22px;
 		text-align: start;
 		color: $accentLightGrey900;
+	}
+}
+
+@media (max-width: 1240px) {
+	.achievements {
+		width: 320px;
+		padding-bottom: 50px;
+
+		&__stats-container {
+			margin: 18px 26px 0;
+			gap: 34px;
+			flex-direction: column;
+		}
+
+		&__achieve {
+			width: 100%;
+		}
+
+		&__title {
+			padding-top: 7px;
+			padding-left: 25px;
+			font-size: 20px;
+			line-height: 32px;
+		}
+
+		&__name {
+			font-size: 16px;
+			line-height: 160%;
+		}
+
+		&__score {
+			font-size: 18px;
+			line-height: 160%;
+		}
+
+		&__completion {
+			margin: 0;
+		}
 	}
 }

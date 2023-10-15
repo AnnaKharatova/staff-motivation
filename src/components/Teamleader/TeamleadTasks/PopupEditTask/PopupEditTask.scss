@@ -45,3 +45,11 @@
 		}
 	}
 }
+
+@media (max-width: 1024px) {
+	.popup-edit {
+		&__checkbox-container {
+			margin-top: 18px;
+		}
+	}
+}

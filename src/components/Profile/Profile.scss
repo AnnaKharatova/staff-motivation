@@ -1,9 +1,10 @@
 .profile {
-	background-color: #f5f6f8;
-	margin: 0 auto;
+	background-color: #f5f6f7;
 	display: flex;
 	flex-direction: column;
 	gap: 3.5%;
+	padding-top: 150px;
+	margin-left: 25px;
 
 	&__data {
 		display: flex;
@@ -13,5 +14,14 @@
 
 	&__sections {
 		display: block;
+	}
+}
+@media (max-width: 1100px) {
+	.profile {
+		gap: 4%;
+
+		&__data {
+			gap: 4%;
+		}
 	}
 }
