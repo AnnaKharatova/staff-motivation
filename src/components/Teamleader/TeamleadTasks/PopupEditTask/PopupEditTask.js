@@ -2,21 +2,27 @@ import './PopupEditTask.scss';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import PropTypes from 'prop-types';
-import { editTask } from '../../../../utils/MainApi';
+import { editTask, deleteTask, getTasks } from '../../../../utils/MainApi';
+import { PopupEditTaskSchema } from '../../../../utils/ValidationSchemes';
 
-function PopupEditTask({ setPopupEditTaskOpen, users, popupInfo }) {
+function PopupEditTask({
+	setPopupEditTaskOpen,
+	users,
+	popupInfo,
+	setfirstTasksArray,
+}) {
 	const navigate = useNavigate();
 
 	const {
 		register,
 		handleSubmit,
-		// getValues,
 		watch,
-		// formState: { errors, isValid, isDirty },
+		formState: { errors, isValid, isDirty },
 	} = useForm({
 		mode: 'onTouched',
-		// resolver: yupResolver(LoginSchema),
+		resolver: yupResolver(PopupEditTaskSchema),
 	});
 
 	const {
@@ -31,6 +37,7 @@ function PopupEditTask({ setPopupEditTaskOpen, users, popupInfo }) {
 		id,
 	} = popupInfo;
 
+	const [errorSpan, setErrorSpan] = useState(false);
 	const [executor, setExecutor] = useState();
 	const [isAreaBorder, setAreaBorder] = useState(false);
 	const [selectedUserId, setSelectedUserId] = useState();
@@ -42,6 +49,37 @@ function PopupEditTask({ setPopupEditTaskOpen, users, popupInfo }) {
 		day: 'numeric',
 		month: 'numeric',
 	});
+
+	function getNewTasks() {
+		getTasks()
+			.then((data) => {
+				const sort = data.sort(
+					(a, b) => new Date(a.created_at) - new Date(b.created_at)
+				);
+				localStorage.setItem('myTasks', JSON.stringify(sort));
+				setfirstTasksArray(sort);
+			})
+			.catch((res) => {
+				if (res === 500) {
+					navigate('/server-error');
+				}
+				setErrorSpan(true);
+			});
+	}
+
+	useEffect(() => {
+		if (errors.deadline || errors.description || errors.reward_points) {
+			setErrorSpan(true);
+		} else {
+			setErrorSpan(false);
+		}
+	}, [
+		errors.deadline,
+		errors.description,
+		errors.reward_points,
+		isValid,
+		isDirty,
+	]);
 
 	useEffect(() => {
 		const userName = users.find((user) => user.id === assigned_to);
@@ -66,13 +104,13 @@ function PopupEditTask({ setPopupEditTaskOpen, users, popupInfo }) {
 		if (status === 'created' && is_overdue) {
 			setStatusName('истёк срок задачи');
 		}
-		if (status === 'approve') {
+		if (status === 'approved') {
 			setStatusName('подтверждено');
 		}
 		if (status === 'sent_for_review') {
 			setStatusName('на подтверждении');
 		}
-		if (status === 'rejected') {
+		if (status === 'returned_for_revision') {
 			setStatusName('на доработке');
 		}
 	}, [status, is_overdue]);
@@ -114,13 +152,29 @@ function PopupEditTask({ setPopupEditTaskOpen, users, popupInfo }) {
 		};
 		editTask(id, newData)
 			.then(() => {
+				getNewTasks();
 				setPopupEditTaskOpen(false);
 			})
 			.catch((res) => {
 				if (res === 500) {
 					navigate('/server-error');
 				} else {
-					console.log(res);
+					setErrorSpan(true);
+				}
+			});
+	}
+
+	function handleDeleteTask() {
+		deleteTask(id)
+			.then(() => {
+				getNewTasks();
+				setPopupEditTaskOpen(false);
+			})
+			.catch((res) => {
+				if (res === 500) {
+					navigate('/server-error');
+				} else {
+					setErrorSpan(true);
 				}
 			});
 	}
@@ -149,11 +203,15 @@ function PopupEditTask({ setPopupEditTaskOpen, users, popupInfo }) {
 
 				<form className="popup-addtask__form" onSubmit={handleSubmit(onSubmit)}>
 					<div
-						className={
-							isAreaBorder || watch('discription')
-								? 'popup-addtask__input-area-filled'
-								: 'popup-addtask__input-area'
-						}
+						className={`popup-addtask__input-area ${
+							errors.description && !isValid && isDirty
+								? 'popup-addtask__input-area_no-valid'
+								: ''
+						}  ${
+							watch('description') || isAreaBorder
+								? 'popup-addtask__input-area_filled'
+								: ''
+						}`}
 					>
 						<textarea
 							className="popup-addtask__input-text"
@@ -197,11 +255,13 @@ function PopupEditTask({ setPopupEditTaskOpen, users, popupInfo }) {
 					<label className="popup-addtask__label-bottom" htmlFor="data">
 						Срок исполнения
 						<input
-							className={
-								watch('deadline')
-									? 'popup-addtask__input-bottom-filled'
-									: 'popup-addtask__input-bottom '
-							}
+							className={`popup-addtask__input-bottom ${
+								errors.deadline && !isValid && isDirty
+									? 'popup-addtask__input-bottom_no-valid'
+									: ''
+							} ${
+								watch('deadline') ? 'popup-addtask__input-bottom_filled' : ''
+							}`}
 							defaultValue={deadlineDate || ''}
 							placeholder="дд.мм"
 							type={watch('deadline') ? 'date' : 'text'}
@@ -214,35 +274,39 @@ function PopupEditTask({ setPopupEditTaskOpen, users, popupInfo }) {
 					<label className="popup-addtask__label-bottom" htmlFor="balls">
 						Баллы за выполнение
 						<input
-							className={
+							className={`popup-addtask__input-bottom ${
+								errors.reward_points && !isValid && isDirty
+									? 'popup-addtask__input-bottom_no-valid'
+									: ''
+							} ${
 								watch('reward_points')
-									? 'popup-addtask__input-bottom-filled'
-									: 'popup-addtask__input-bottom '
-							}
+									? 'popup-addtask__input-bottom_filled'
+									: ''
+							}`}
 							defaultValue={reward_points || ''}
-							type="text"
+							type="number"
 							name="reward_points"
 							id="reward_points"
 							{...register('reward_points', { required: false })}
 						/>
 					</label>
 
-					<label
-						className="popup-edit__checkbox-container"
-						htmlFor="task-checkbox"
-					>
-						<input
-							className="popup-edit__checkbox"
-							id="task-checkbox"
-							type="checkbox"
-							name="task-checkbox"
-						/>
-						<span />
-						<p className="popup-edit__checkbox-message">Отклонить задачу</p>
-					</label>
+					{errorSpan ? (
+						<span className="popup-addtask__error-span">
+							Ошибка ввода данных
+						</span>
+					) : (
+						<div className="popup-addtask__error-area popup-edit__error-area" />
+					)}
 
 					<button className="popup-addtask__button" type="submit">
 						Сохранить изменения
+					</button>
+					<button
+						className="popup__button-reject popup-edit__button"
+						onClick={handleDeleteTask}
+					>
+						Удалить задачу
 					</button>
 				</form>
 			</div>
@@ -253,20 +317,18 @@ export default PopupEditTask;
 
 PopupEditTask.propTypes = {
 	setPopupEditTaskOpen: PropTypes.func.isRequired,
-	popupInfo: PropTypes.arrayOf(
-		PropTypes.shape({
-			is_overdue: PropTypes.bool.isRequired,
-			id: PropTypes.number.isRequired,
-			status: PropTypes.string.isRequired,
-			reward_points: PropTypes.number.isRequired,
-			title: PropTypes.string.isRequired,
-			description: PropTypes.string.isRequired,
-			created_at: PropTypes.string.isRequired,
-			deadline: PropTypes.string.isRequired,
-			assigned_to: PropTypes.number.isRequired,
-			department: PropTypes.string.isRequired,
-		})
-	),
+	popupInfo: PropTypes.shape({
+		is_overdue: PropTypes.bool.isRequired,
+		id: PropTypes.number.isRequired,
+		status: PropTypes.string.isRequired,
+		reward_points: PropTypes.number.isRequired,
+		title: PropTypes.string.isRequired,
+		description: PropTypes.string.isRequired,
+		created_at: PropTypes.string.isRequired,
+		deadline: PropTypes.string.isRequired,
+		assigned_to: PropTypes.number.isRequired,
+		department: PropTypes.string.isRequired,
+	}),
 	users: PropTypes.arrayOf(
 		PropTypes.shape({
 			first_name: PropTypes.string,
@@ -274,21 +336,20 @@ PopupEditTask.propTypes = {
 			id: PropTypes.number,
 		})
 	).isRequired,
+	setfirstTasksArray: PropTypes.func.isRequired,
 };
 
 PopupEditTask.defaultProps = {
-	popupInfo: PropTypes.arrayOf(
-		PropTypes.shape({
-			is_overdue: true,
-			id: '',
-			status: '',
-			reward_points: 0,
-			title: '',
-			description: '',
-			created_at: '',
-			deadline: '',
-			assigned_to: 0,
-			department: '',
-		})
-	),
+	popupInfo: PropTypes.shape({
+		is_overdue: true,
+		id: '',
+		status: '',
+		reward_points: 0,
+		title: '',
+		description: '',
+		created_at: '',
+		deadline: '',
+		assigned_to: 0,
+		department: '',
+	}),
 };

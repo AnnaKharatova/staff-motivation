@@ -1,55 +1,9 @@
 .popup-edit {
-	&__checkbox-container {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		gap: 3px;
+	&__button {
+		margin-left: 0;
+		text-align: left;
 	}
-
-	&__checkbox[type='checkbox'] {
-		display: none;
-
-		+ {
-			span {
-				width: 9px;
-				height: 9px;
-				margin: 0;
-				border: 2px solid #49536e;
-				border-radius: 3px;
-			}
-		}
-
-		&:checked {
-			+ {
-				span {
-					display: block;
-					background-image: url(../../../../images/checkmark-yes.svg);
-					background-size: 22px 22px;
-					background-repeat: no-repeat;
-					background-position: center;
-					border: 2px solid #49536e;
-				}
-			}
-		}
-	}
-
-	&__checkbox-message {
-		margin: 0 0 0 8px;
-		font-weight: 500;
-		font-size: 16px;
-		line-height: 160%;
-		color: #525c76;
-
-		@media (max-width: 1024px) {
-			font-size: 15px;
-		}
-	}
-}
-
-@media (max-width: 1024px) {
-	.popup-edit {
-		&__checkbox-container {
-			margin-top: 18px;
-		}
+	&__error-area{
+		height: 58px;
 	}
 }

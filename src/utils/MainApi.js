@@ -172,6 +172,19 @@ export function editTask(id, data) {
 	}).then(checkResponse);
 }
 
+export function deleteTask(id) {
+	const token = localStorage.getItem('token');
+	return fetch(`${BASE_URL}/api/tasks/${id}/`, {
+		method: 'DELETE',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json',
+			Authorization: `Token ${token}`,
+			// Authorization: `Token cccee5de88c1aae699e77440edfc7e93373ab3d4`,
+		},
+	});
+}
+
 /*  Profile */
 
 // Личные данные

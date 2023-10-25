@@ -46,7 +46,6 @@ function PopupAddTask({
 		errors.description,
 		errors.title,
 		errors.reward_points,
-		executor,
 		isValid,
 		isDirty,
 	]);
@@ -68,14 +67,17 @@ function PopupAddTask({
 	function getNewTasks() {
 		getTasks()
 			.then((data) => {
-				localStorage.setItem('myTasks', JSON.stringify(data));
-				setfirstTasksArray(data);
+				const sort = data.sort(
+					(a, b) => new Date(a.created_at) - new Date(b.created_at)
+				);
+				localStorage.setItem('myTasks', JSON.stringify(sort));
+				setfirstTasksArray(sort);
 			})
 			.catch((res) => {
 				if (res === 500) {
 					navigate('/server-error');
 				}
-				console.log(res);
+				setErrorSpan(true);
 			});
 	}
 

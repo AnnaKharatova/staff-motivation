@@ -403,6 +403,7 @@ function TeamleadTasks({ userId }) {
 						setPopupEditTaskOpen={setPopupEditTaskOpen}
 						popupInfo={popupInfo}
 						users={users}
+						setfirstTasksArray={setfirstTasksArray}
 					/>
 				) : null}
 			</div>
