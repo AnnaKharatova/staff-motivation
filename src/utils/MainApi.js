@@ -237,7 +237,8 @@ export function signup(data) {
 }
 
 export function activateRegister(uid, token) {
-	return fetch(`${BASE_URL}/api/token/login/`, {
+	console.log(uid, token);
+	return fetch(`${BASE_URL}/api/users/activation/`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',

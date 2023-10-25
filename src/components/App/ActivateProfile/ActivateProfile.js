@@ -23,7 +23,7 @@ function ActivateProfile() {
 			});
 	}, [navigate, uid, token]);
 
-	return <div>Активация профиля. Перенаправляем на страницу входа</div>;
+	return <div>Активация профиля. Перенаправляем на страницу входа.</div>;
 }
 
 export default ActivateProfile;
