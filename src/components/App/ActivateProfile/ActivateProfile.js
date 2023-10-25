@@ -6,14 +6,13 @@ function ActivateProfile() {
 	const navigate = useNavigate();
 	const { uid, token } = useParams();
 
-	console.log(uid, token);
 	// http://localhost:3000/activate/MTM/bwcmyz-1781c61a7b00f62103bcf44a10c2db7c
 
 	useEffect(() => {
+		console.log(uid, token);
 		activateRegister(uid, token)
 			.then(() => {
 				navigate('/signin');
-				console.log('активация успешна');
 			})
 			.catch((res) => {
 				if (res === 500) {
@@ -24,7 +23,7 @@ function ActivateProfile() {
 			});
 	}, [navigate, uid, token]);
 
-	return <div>{}</div>;
+	return <div>Активация профиля. Перенаправляем на страницу входа</div>;
 }
 
 export default ActivateProfile;
