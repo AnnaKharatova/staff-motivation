@@ -12,7 +12,9 @@ function ActivateProfile() {
 		console.log(uid, token);
 		activateRegister(uid, token)
 			.then(() => {
-				navigate('/signin');
+				setTimeout(() => {
+					navigate('/signin');
+				}, 2000);
 			})
 			.catch((res) => {
 				if (res === 500) {
