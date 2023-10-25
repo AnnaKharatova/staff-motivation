@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { activateRegister } from '../../../utils/MainApi';
+import logoActivation from '../../../images/CircleWavyCheck.svg';
+import Modal from '../Modal/Modal';
+import styles from '../Modal/Modal.module.scss';
 
 function ActivateProfile() {
 	const navigate = useNavigate();
 	const { uid, token } = useParams();
-
-	// http://localhost:3000/activate/MTM/bwcmyz-1781c61a7b00f62103bcf44a10c2db7c
 
 	useEffect(() => {
 		console.log(uid, token);
@@ -20,12 +21,24 @@ function ActivateProfile() {
 				if (res === 500) {
 					navigate('/server-error');
 				} else {
-					console.log(res);
+					navigate('/approving-register');
 				}
 			});
 	}, [navigate, uid, token]);
 
-	return <div>Активация профиля. Перенаправляем на страницу входа.</div>;
+	return (
+		<Modal>
+			<section className={styles.ModalPort}>
+				<div className={styles.Module}>
+					<img src={logoActivation} className="App-logo" alt="logo" />
+					<h1 className={styles.Text1}>Активация профиля</h1>
+					<h2 className={styles.Text2}>
+						Идет перенаправление на страницу входа......
+					</h2>
+				</div>
+			</section>
+		</Modal>
+	);
 }
 
 export default ActivateProfile;

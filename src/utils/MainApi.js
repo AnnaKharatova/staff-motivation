@@ -271,6 +271,17 @@ export function login(email, password) {
 	}).then(checkResponse);
 }
 
+export function logout() {
+	const token = localStorage.getItem('token');
+	return fetch(`${BASE_URL}/api/token/logout/`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Token ${token}`,
+		},
+	});
+}
+
 // запрос на смену пароля
 export function changePassword(email) {
 	const token = localStorage.getItem('token');

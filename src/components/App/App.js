@@ -15,7 +15,12 @@ import ModalConfirm from './ModalConfirm/ModalConfirm';
 import ModalUpload from './ModalUpload/ModalUpload';
 import Notifications from './Header/Notifications/Notifications';
 import Teamleader from '../Teamleader/TeamleadTasks/TeamleadTasks';
-import { getUserData, getNotification, getTasks } from '../../utils/MainApi';
+import {
+	getUserData,
+	getNotification,
+	getTasks,
+	logout,
+} from '../../utils/MainApi';
 import DevelopingPage from './DevelopingPage/DevelopingPage';
 import ActivateProfile from './ActivateProfile/ActivateProfile';
 import ApprovingRegisterPage from '../Register/ApprovingRegisterPage/ApprovingRegisterPage';
@@ -76,10 +81,20 @@ function App() {
 	}, [navigate, loggedIn, token]);
 
 	const handleLogOut = () => {
-		setLoggedIn(false);
-		setIsOpenModalconfirm(false);
-		localStorage.clear();
-		navigate('/signin');
+		logout()
+			.then(() => {
+				setLoggedIn(false);
+				setIsOpenModalconfirm(false);
+				localStorage.clear();
+				navigate('/signin');
+			})
+			.catch((res) => {
+				if (res === 500) {
+					navigate('/server-error');
+				} else {
+					setIsOpenModalconfirm(false);
+				}
+			});
 	};
 
 	const handleOpenModalConfirm = () => setIsOpenModalconfirm(true);
