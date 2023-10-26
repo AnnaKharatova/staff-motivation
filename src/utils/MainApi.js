@@ -266,7 +266,7 @@ export function logout() {
 			'Content-Type': 'application/json',
 			Authorization: `Token ${token}`,
 		},
-	});
+	}).then(checkResponse);
 }
 
 // запрос на смену пароля
@@ -277,31 +277,23 @@ export function changePassword(email) {
 			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify({ email }),
-	});
+	}).then(checkResponse);
 }
 
 // новый пароль
-
-function request(url, options) {
-	return fetch(`${BASE_URL}${url}`, options).then();
-}
-
 export function setPassword(uid, token, data) {
 	const currentData = {
 		uid,
 		token,
 		new_password: data,
 	};
-
-	console.log(currentData);
-
-	return request(`/api/users/reset_password_confirm/`, {
+	return fetch(`${BASE_URL}/api/users/reset_password_confirm/`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify(currentData),
-	});
+	}).then(checkResponse);
 }
 
 /*

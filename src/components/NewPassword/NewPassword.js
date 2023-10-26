@@ -71,21 +71,20 @@ function NewPassword() {
 	const onSubmit = (data, evt) => {
 		evt.preventDefault();
 		if (watch('password') === watch('confirmPassword')) {
-			console.log(uid, token, data);
-
 			setPassword(uid, token, data.password)
 				.then(() => {
 					setIsOpen(true);
 				})
 				.catch((err) => {
 					if (err === 400) {
+						console.log(err.message)
 						setIsError(true);
-						setError(ERROR_MESSAGES.SERVER.REGISTER);
+						setError(ERROR_MESSAGES.SERVER.ELSE, err);
 					} else if (err === 500) {
 						navigate('/server-error');
 					} else {
 						setIsError(true);
-						setError(ERROR_MESSAGES.SERVER.ELSE);
+						setError(ERROR_MESSAGES.SERVER.ELSE, err);
 					}
 				});
 		} else {
