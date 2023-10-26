@@ -76,7 +76,6 @@ function NewPassword() {
 			setPassword(uid, token, data.password)
 				.then(() => {
 					setIsOpen(true);
-					// navigate('/signin')
 				})
 				.catch((err) => {
 					if (err === 400) {

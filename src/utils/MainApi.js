@@ -281,15 +281,9 @@ export function changePassword(email) {
 }
 
 // новый пароль
-const getResponseData = (response) => {
-	if (!response.ok) {
-		return Promise.reject(response.status);
-	}
-	return response.json();
-};
 
 function request(url, options) {
-	return fetch(`${BASE_URL}${url}`, options).then(getResponseData);
+	return fetch(`${BASE_URL}${url}`, options).then();
 }
 
 export function setPassword(uid, token, data) {
