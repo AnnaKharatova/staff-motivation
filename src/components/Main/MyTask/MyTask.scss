@@ -1,6 +1,7 @@
 .mytask {
+	box-sizing: border-box;
 	margin: 0 auto;
-	min-height: 48px;
+	min-height: 49px;
 	border-bottom: 1px solid #e2e4e8;
 	display: flex;
 	flex-direction: row;
@@ -13,7 +14,7 @@
 
 	&__no-hover {
 		margin: 0 auto;
-		min-height: 48px;
+		min-height: 49px;
 		border-bottom: 1px solid #e2e4e8;
 		display: flex;
 		flex-direction: row;
@@ -22,7 +23,7 @@
 
 	&__title {
 		text-align: left;
-		width: 55%;
+		width: 47%;
 		font-size: 14px;
 		font-style: normal;
 		font-weight: 500;
@@ -43,9 +44,10 @@
 
 	&__status {
 		align-self: end;
+		text-align: end;
 		padding-bottom: 5px;
 		margin: 0;
-		width: 150px;
+		width: 16%;
 		font-size: 14px;
 		font-style: normal;
 		font-weight: 500;
@@ -90,7 +92,7 @@
 		font-weight: 500;
 		line-height: 160%;
 		color: #8247e5;
-		width: 25%;
+		width: 20%;
 		height: 34px;
 		cursor: pointer;
 		align-self: center;
@@ -120,14 +122,14 @@
 	}
 
 	&__score {
-		text-align: center;
+		text-align: start;
 		align-self: end;
 		color: #525c76;
 		font-size: 14px;
 		font-style: normal;
 		font-weight: 500;
 		line-height: 160%;
-		width: 15%;
+		width: 8%;
 		margin: 0;
 		padding-bottom: 5px;
 

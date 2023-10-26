@@ -18,6 +18,7 @@ function DepartmentTask({ task, onClick, users, taskStatus, taskId }) {
 	const [dataClass, setDataClass] = useState('mytask__data');
 	const [executor, setExecutor] = useState('');
 	const [currentTaskStatus, setCurrentTaskStatus] = useState(status);
+	const [noHoverTask, setNoHoverTask] = useState(false);
 
 	useEffect(() => {
 		if (taskStatus && taskId === id) {
@@ -61,6 +62,7 @@ function DepartmentTask({ task, onClick, users, taskStatus, taskId }) {
 			setStatusName('подтверждено');
 			setDeadlieneData(`Выполнено`);
 			setDataClass('mytask__data mytask__data-done');
+			setNoHoverTask(true);
 		}
 	}, [currentTaskStatus]);
 
@@ -91,7 +93,7 @@ function DepartmentTask({ task, onClick, users, taskStatus, taskId }) {
 
 	return (
 		<div
-			className="mytask"
+			className={`mytask ${noHoverTask ? 'department-task__no-hover' : ''}`}
 			onClick={() => onClick(id, status)}
 			role="button"
 			tabIndex={0}

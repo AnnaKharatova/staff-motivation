@@ -9,6 +9,11 @@
 		margin: 0;
 		color: #525c76;
 	}
+
+	&__no-hover:hover {
+		background-color: inherit;
+		cursor: auto;
+	}
 }
 
 @media (max-width: 1240px) {
@@ -21,3 +26,5 @@
 		}
 	}
 }
+
+

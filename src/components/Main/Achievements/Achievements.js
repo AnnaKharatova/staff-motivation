@@ -20,7 +20,7 @@ export default function Achievements({ progressForDeadline }) {
 
 	return (
 		<section className="achievements">
-			<h2 className="achievements__title">Достижения</h2>
+			<h2 className="achievements__title">Цели на месяц</h2>
 			<ul className="achievements__stats-container">
 				<li className="achievements__achieve">
 					<p className="achievements__name">Качество работы</p>

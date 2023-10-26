@@ -196,7 +196,8 @@ function TeamleadTasks({ userId }) {
 				return;
 			}
 			if (statusPopup === 'approved') {
-				setPopupInfoTaskOpen(true);
+				setPopupInfoTaskOpen(false);
+				setPopupEditTaskOpen(false);
 				return;
 			}
 			setPopupEditTaskOpen(true);
