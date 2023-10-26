@@ -271,15 +271,13 @@ export function logout() {
 
 // запрос на смену пароля
 export function changePassword(email) {
-	const token = localStorage.getItem('token');
 	return fetch(`${BASE_URL}/api/users/reset_password/`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Token ${token}`,
 		},
-		body: JSON.stringify(email),
-	}).then(checkResponse);
+		body: JSON.stringify({ email }),
+	});
 }
 
 // новый пароль
@@ -294,22 +292,21 @@ function request(url, options) {
 	return fetch(`${BASE_URL}${url}`, options).then(getResponseData);
 }
 
-export function setPassword(data) {
-	const token = localStorage.getItem('token');
+export function setPassword(uid, token, data) {
 	const currentData = {
-		first_name: data.firstName,
-		last_name: data.lastName,
-		password: data.password,
-		email: data.email,
-		password_confirmation: data.confirmPassword,
+		uid,
+		token,
+		new_password: data,
 	};
-	return request(`/api/users/set_password/`, {
+
+	console.log(currentData);
+
+	return request(`/api/users/reset_password_confirm/`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Token ${token}`,
 		},
-		body: JSON.stringify({ currentData }),
+		body: JSON.stringify(currentData),
 	});
 }
 

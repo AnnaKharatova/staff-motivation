@@ -206,7 +206,10 @@ function App() {
 					}
 				/>
 				<Route path="/signup" element={<Register />} />
-				<Route path="/new-password" element={<NewPassword />} />
+				<Route
+					path="/password/reset/confirm/:uid/:token"
+					element={<NewPassword />}
+				/>
 				<Route
 					path="/signin"
 					element={

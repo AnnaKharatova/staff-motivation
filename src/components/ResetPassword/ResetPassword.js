@@ -11,6 +11,8 @@ import Modal from '../App/Modal/Modal';
 import logo1 from '../../images/CircleWavyCheck.svg';
 import styles from '../App/Modal/Modal.module.scss';
 
+// http://localhost:3000/password/reset/confirm/ODk/bwojc2-1312fa59596a28f429c3c7e7c880c80e
+
 export default function ResetPassword() {
 	const [isOpen, setIsOpen] = useState(false);
 	const navigate = useNavigate();
