@@ -72,14 +72,17 @@ function NewPassword() {
 		evt.preventDefault();
 		if (watch('password') === watch('confirmPassword')) {
 			setPassword(uid, token, data.password)
-				.then(() => {
+				.then((res) => {
+					console.log(res)
 					setIsOpen(true);
 				})
 				.catch((err) => {
+					console.log(err);
 					if (err === 400) {
-						console.log(err.message)
 						setIsError(true);
 						setError(ERROR_MESSAGES.SERVER.ELSE, err);
+					} else if (err === 204) {
+						setIsOpen(true);
 					} else if (err === 500) {
 						navigate('/server-error');
 					} else {

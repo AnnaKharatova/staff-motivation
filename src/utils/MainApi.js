@@ -7,7 +7,7 @@ const checkResponse = (res) => {
 	if (res.ok) {
 		return res.json();
 	}
-	return Promise.reject(res.status);
+	return Promise.reject(res);
 };
 
 // Header
