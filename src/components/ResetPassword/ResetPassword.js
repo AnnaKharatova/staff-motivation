@@ -28,26 +28,6 @@ export default function ResetPassword() {
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
-		const handleKeyDown = (event) => {
-			if (event.key === 'Escape') {
-				setIsOpen(false);
-			}
-		};
-		const handleMouseDown = (event) => {
-			if (!modalRef.current || modalRef.current.contains(event.target)) {
-				return;
-			}
-			setIsOpen(false);
-		};
-		document.addEventListener('keydown', handleKeyDown);
-		document.addEventListener('mousedown', handleMouseDown);
-		return () => {
-			document.removeEventListener('keydown', handleKeyDown);
-			document.removeEventListener('mousedown', handleMouseDown);
-		};
-	}, []);
-
-	useEffect(() => {
 		if (errors.email) {
 			setIsError(true);
 			setError(errors.email.message);
@@ -58,8 +38,7 @@ export default function ResetPassword() {
 		}
 	}, [errors.email, isValid]);
 
-	const onSubmit = (data, evt) => {
-		evt.preventDefault();
+	const onSubmit = (data) => {
 		changePassword(data.email)
 			.then(() => {
 				setIsOpen(true);
@@ -71,8 +50,7 @@ export default function ResetPassword() {
 				} else if (err === 500) {
 					navigate('/server-error');
 				} else {
-					setIsError(true);
-					setError(ERROR_MESSAGES.SERVER.ELSE);
+					setIsOpen(true);
 				}
 			});
 	};

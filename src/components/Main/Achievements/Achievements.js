@@ -48,7 +48,7 @@ export default function Achievements({ progressForDeadline }) {
 				<li className="achievements__achieve">
 					<p className="achievements__name">Соблюдение дедлайна</p>
 					<div className="achievements__score-container">
-						{isAchieveDeadline && progressForDeadline ? (
+						{isAchieveDeadline ? (
 							<img
 								className="achievements__logo"
 								src={achieveLogo}
@@ -57,7 +57,7 @@ export default function Achievements({ progressForDeadline }) {
 						) : null}
 						<p className="achievements__score">{`+${deadlineScore} Б`}</p>
 					</div>
-					{isAchieveDeadline && progressForDeadline > 0 ? (
+					{isAchieveDeadline > 0 ? (
 						<p className="achievements__completion">
 							Начислено в конце отчётного периода
 						</p>

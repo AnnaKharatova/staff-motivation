@@ -1,22 +1,26 @@
 import './TeamleadTasks.scss';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import iconFilter from '../../../images/SortAscending.png';
+import PropTypes from 'prop-types';
 import DepartmentTasks from '../DepartmentTasks/DepartmentTasks';
-import { tasksList } from '../../../utils/constants';
 import PopupAddTask from './PopupAddTask/PopupAddTask';
 import PopupEditTask from './PopupEditTask/PopupEditTask';
-
+import iconFilter from '../../../images/SortAscending.png';
 import {
-	/* getTasks, */ getTaskInfo,
-	confirmTask,
+	getUsers,
+	getTaskInfo,
+	reviewTask,
+	rejectTask,
 } from '../../../utils/MainApi';
 
-function TeamleadTasks() {
+function TeamleadTasks({ userId }) {
 	const navigate = useNavigate();
+	const storagedArray = JSON.parse(localStorage.getItem('myTasks'));
 
-	const [tasksArray, setTasksArray] = useState(tasksList);
-	const [isPopupTaskOpen, setPopupTaskOpen] = useState(false);
+	const [firstTasksArray, setfirstTasksArray] = useState(storagedArray);
+	const [tasksFromTeamlead, setTasksFromTeamlead] = useState([]);
+	const [tasksArray, setTasksArray] = useState(tasksFromTeamlead);
+	const [isPopupInfoTaskOpen, setPopupInfoTaskOpen] = useState(false);
 	const [isPopupAddTaskOpen, setPopupAddTaskOpen] = useState(false);
 	const [isPopupEditTaskOpen, setPopupEditTaskOpen] = useState(false);
 	const [allTasksButton, setAllTasksButton] = useState(true);
@@ -26,9 +30,11 @@ function TeamleadTasks() {
 	const [popupInfo, setPopupInfo] = useState([]);
 	const [statusName, setStatusName] = useState('');
 	const [isDeadlineSort, setDeadlineSort] = useState(false);
-
+	const [users, setUsers] = useState([]);
+	const [department, setDepartmentName] = useState('');
 	const {
 		status,
+		is_overdue,
 		reward_points,
 		title,
 		description,
@@ -36,6 +42,9 @@ function TeamleadTasks() {
 		deadline,
 		id,
 	} = popupInfo;
+
+	const [taskStatus, setTaskStatus] = useState(status);
+	const [taskId, setTaskId] = useState(id);
 
 	const dateDeadline = new Date(deadline);
 	const dateCreated = new Date(created_at);
@@ -45,29 +54,29 @@ function TeamleadTasks() {
 		options
 	);
 	const formattedDateCreated = dateCreated.toLocaleDateString('ru-RU', options);
-	// const storagedArray = JSON.parse(localStorage.getItem('myTasks'));
 
-	const marketingItems = tasksArray.filter(
-		(item) => item.department === 'Маркетинг'
-	);
+	const QAItems = tasksArray.filter((item) => item.department === 'qa');
 	const backendItems = tasksArray.filter(
-		(item) => item.department === 'Бэкенд'
+		(item) => item.department === 'backend'
 	);
 	const frontendItems = tasksArray.filter(
-		(item) => item.department === 'Фронтенд'
+		(item) => item.department === 'frontend'
 	);
-	const designItems = tasksArray.filter(
-		(item) => item.department === 'UX/UI дизайн'
-	);
+	const designItems = tasksArray.filter((item) => item.department === 'ux_ui');
 
-	/* useEffect(() => {
-		getTasks()
+	useEffect(() => {
+		const tasks = firstTasksArray.filter((task) => task.assigned_to !== userId);
+		setTasksFromTeamlead(tasks);
+	}, [firstTasksArray, userId]);
+
+	useEffect(() => {
+		setTasksArray(tasksFromTeamlead);
+	}, [tasksFromTeamlead]);
+
+	useEffect(() => {
+		getUsers()
 			.then((data) => {
-				const sort = data.tasks.sort(
-					(a, b) => new Date(a.created_at) - new Date(b.created_at)
-				);
-				setTasksArray(sort);
-				localStorage.setItem('myTasks', JSON.stringify(sort));
+				setUsers(data);
 			})
 			.catch((res) => {
 				if (res === 500) {
@@ -76,32 +85,32 @@ function TeamleadTasks() {
 					setTasksArray([]);
 				}
 			});
-	}, [navigate]); */
+	}, [navigate]);
 
 	useEffect(() => {
 		if (status === 'created') {
 			setStatusName('на выполнении');
 		}
-		if (status === 'is_overdue') {
+		if (status === 'created' && is_overdue) {
 			setStatusName('истёк срок задачи');
 		}
-		if (status === 'approve') {
+		if (status === 'approved') {
 			setStatusName('подтверждено');
 		}
 		if (status === 'sent_for_review') {
 			setStatusName('на подтверждении');
 		}
-		if (status === 'rejected') {
+		if (status === 'returned_for_revision') {
 			setStatusName('на доработке');
 		}
-	}, [status]);
+	}, [status, is_overdue]);
 
 	function handleAllTasksSort() {
 		setAllTasksButton(true);
 		setTimeOutTasksButton(false);
 		setInApproveTasksButton(false);
 		setActiveTaskstButton(false);
-		setTasksArray(tasksList);
+		setTasksArray(tasksFromTeamlead);
 	}
 
 	function handleActiveTasksSort() {
@@ -109,8 +118,9 @@ function TeamleadTasks() {
 		setActiveTaskstButton(true);
 		setTimeOutTasksButton(false);
 		setInApproveTasksButton(false);
-		const filteredTasks = tasksList.filter(
-			(task) => task.status === 'created' || task.status === 'rejected'
+		const filteredTasks = tasksFromTeamlead.filter(
+			(task) =>
+				task.status === 'created' || task.status === 'returned_for_revision'
 		);
 		setTasksArray(filteredTasks);
 	}
@@ -120,7 +130,7 @@ function TeamleadTasks() {
 		setActiveTaskstButton(false);
 		setAllTasksButton(false);
 		setTimeOutTasksButton(false);
-		const filteredTasks = tasksList.filter(
+		const filteredTasks = tasksFromTeamlead.filter(
 			(task) => task.status === 'sent_for_review'
 		);
 		setTasksArray(filteredTasks);
@@ -131,14 +141,14 @@ function TeamleadTasks() {
 		setInApproveTasksButton(false);
 		setActiveTaskstButton(false);
 		setAllTasksButton(false);
-		const filteredTasks = tasksList.filter(
-			(task) => task.status === 'is_overdue'
+		const filteredTasks = tasksFromTeamlead.filter(
+			(task) => task.is_overdue === true
 		);
 		setTasksArray(filteredTasks);
 	}
 
 	function handleDeadlineSort() {
-		const notToSort = 'sent_for_review' || 'approve';
+		const notToSort = 'sent_for_review' || 'approved';
 
 		if (isDeadlineSort) {
 			setDeadlineSort(false);
@@ -177,12 +187,16 @@ function TeamleadTasks() {
 				.catch((res) => {
 					if (res === 500) {
 						navigate('/server-error');
-					} /* else {
+					} else {
 						setTasksArray([]);
-					} */
+					}
 				});
-			if (statusPopup === 'approve') {
-				setPopupTaskOpen(true);
+			if (statusPopup === 'sent_for_review') {
+				setPopupInfoTaskOpen(true);
+				return;
+			}
+			if (statusPopup === 'approved') {
+				setPopupInfoTaskOpen(true);
 				return;
 			}
 			setPopupEditTaskOpen(true);
@@ -192,29 +206,50 @@ function TeamleadTasks() {
 
 	function closePopupOverlay(event) {
 		if (event.target.classList.contains('popup')) {
-			setPopupTaskOpen(false);
+			setPopupInfoTaskOpen(false);
 			setPopupAddTaskOpen(false);
 		}
 	}
 
 	function closePopupButton() {
-		setPopupTaskOpen(false);
+		setPopupInfoTaskOpen(false);
 		setPopupAddTaskOpen(false);
 	}
 
-	function confirmTaskPopup() {
-		confirmTask(id, popupInfo)
+	function EditTask() {
+		rejectTask(id, popupInfo)
 			.then(() => {
-				setPopupTaskOpen(false);
+				setPopupInfoTaskOpen(false);
+				setTaskStatus('sent_for_review');
+				setTaskId(id);
 			})
 			.catch((res) => {
 				if (res === 500) {
 					navigate('/server-error');
+				} else {
+					console.log(res);
 				}
 			});
 	}
 
-	const handleAddTaskPopupOpen = useCallback(() => {
+	function confirmTaskPopup() {
+		reviewTask(id, popupInfo)
+			.then(() => {
+				setTaskStatus('approved');
+				setTaskId(id);
+				setPopupInfoTaskOpen(false);
+			})
+			.catch((res) => {
+				if (res === 500) {
+					navigate('/server-error');
+				} else {
+					console.log(res);
+				}
+			});
+	}
+
+	const handleAddTaskPopupOpen = useCallback((departmentName) => {
+		setDepartmentName(departmentName);
 		setPopupAddTaskOpen(true);
 	}, []);
 
@@ -284,27 +319,39 @@ function TeamleadTasks() {
 					array={frontendItems}
 					handlePopupOpen={handlePopupOpen}
 					handleAddTaskPopupOpen={handleAddTaskPopupOpen}
+					users={users}
+					taskStatus={taskStatus}
+					taskId={taskId}
 				/>
 				<DepartmentTasks
 					name="Бэкенд"
 					array={backendItems}
 					handlePopupOpen={handlePopupOpen}
 					handleAddTaskPopupOpen={handleAddTaskPopupOpen}
+					users={users}
+					taskStatus={taskStatus}
+					taskId={taskId}
 				/>
 				<DepartmentTasks
-					name="Маркетинг"
-					array={marketingItems}
+					name="Quality Assurance"
+					array={QAItems}
 					handlePopupOpen={handlePopupOpen}
 					handleAddTaskPopupOpen={handleAddTaskPopupOpen}
+					users={users}
+					taskStatus={taskStatus}
+					taskId={taskId}
 				/>
 				<DepartmentTasks
 					name="UX/UI дизайн"
 					array={designItems}
 					handlePopupOpen={handlePopupOpen}
 					handleAddTaskPopupOpen={handleAddTaskPopupOpen}
+					users={users}
+					taskStatus={taskStatus}
+					taskId={taskId}
 				/>
 
-				{isPopupTaskOpen ? (
+				{isPopupInfoTaskOpen ? (
 					<div
 						className="popup"
 						onClick={closePopupOverlay}
@@ -335,17 +382,27 @@ function TeamleadTasks() {
 							<button className="popup__button" onClick={confirmTaskPopup}>
 								Подтвердить выполнение
 							</button>
+							<button className="popup__button-reject" onClick={EditTask}>
+								Отправить на доработку
+							</button>
 						</div>
 					</div>
 				) : null}
 
 				{isPopupAddTaskOpen ? (
-					<PopupAddTask setPopupAddTaskOpen={setPopupAddTaskOpen} />
+					<PopupAddTask
+						setPopupAddTaskOpen={setPopupAddTaskOpen}
+						users={users}
+						departmentName={department}
+						setfirstTasksArray={setfirstTasksArray}
+						setTasksArray={setTasksArray}
+					/>
 				) : null}
 				{isPopupEditTaskOpen ? (
 					<PopupEditTask
 						setPopupEditTaskOpen={setPopupEditTaskOpen}
 						popupInfo={popupInfo}
+						users={users}
 					/>
 				) : null}
 			</div>
@@ -354,3 +411,10 @@ function TeamleadTasks() {
 }
 
 export default TeamleadTasks;
+
+TeamleadTasks.propTypes = {
+	userId: PropTypes.number,
+};
+TeamleadTasks.defaultProps = {
+	userId: 0,
+};

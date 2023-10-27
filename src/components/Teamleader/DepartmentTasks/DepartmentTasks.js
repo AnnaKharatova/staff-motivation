@@ -6,10 +6,13 @@ import CaretUp from '../../../images/CaretUp.svg';
 import DepartmentTask from '../DepartmentTask/DepartmentTask';
 
 function DepartmentTasks({
+	taskStatus,
+	taskId,
 	name,
 	array,
 	handlePopupOpen,
 	handleAddTaskPopupOpen,
+	users,
 }) {
 	const [isOpenTasksList, setOpenTasksList] = useState(false);
 
@@ -43,7 +46,7 @@ function DepartmentTasks({
 				<>
 					<button
 						className="department-tasks__add-task"
-						onClick={handleAddTaskPopupOpen}
+						onClick={() => handleAddTaskPopupOpen(name)}
 					>
 						Добавить задачу
 					</button>
@@ -53,6 +56,9 @@ function DepartmentTasks({
 								onClick={handlePopupOpen}
 								task={task}
 								key={task.id}
+								users={users}
+								taskStatus={taskStatus}
+								taskId={taskId}
 							/>
 						))}
 					</div>
@@ -81,6 +87,15 @@ DepartmentTasks.propTypes = {
 			department: PropTypes.string.isRequired,
 		})
 	),
+	users: PropTypes.arrayOf(
+		PropTypes.shape({
+			first_name: PropTypes.string,
+			last_name: PropTypes.string,
+			id: PropTypes.number,
+		})
+	).isRequired,
+	taskStatus: PropTypes.string,
+	taskId: PropTypes.number,
 };
 
 DepartmentTasks.defaultProps = {
@@ -95,4 +110,6 @@ DepartmentTasks.defaultProps = {
 		assigned_to: 0,
 		department: 'Маркетинг',
 	},
+	taskStatus: '',
+	taskId: 0,
 };

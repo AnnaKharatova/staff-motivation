@@ -1,20 +1,15 @@
 import './Register.scss';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { RegisterSchema } from '../../utils/ValidationSchemes';
 import { signup } from '../../utils/MainApi';
 import { ERROR_MESSAGES } from '../../utils/Config';
-import logoActivation from '../../images/CircleWavyCheck.svg';
 import logo from '../../images/M-check.svg';
 import eyeButton from '../../images/Icon-hidden-pass.svg';
-import Modal from '../App/Modal/Modal';
-import styles from '../App/Modal/Modal.module.scss';
 
 function Register() {
-	const [isOpen, setIsOpen] = useState(false);
-	const modalRef = useRef(null);
 	const navigate = useNavigate();
 	const {
 		register,
@@ -33,7 +28,7 @@ function Register() {
 	function onRegister(data) {
 		signup(data)
 			.then(() => {
-				navigate('/signin');
+				navigate('/approving-register');
 			})
 			.catch((err) => {
 				if (err === 400) {
@@ -65,26 +60,6 @@ function Register() {
 	function handleConfirmPasswordHidden() {
 		setConfirmPasswordHidden(!isConfirmPasswordHidden);
 	}
-
-	useEffect(() => {
-		const handleKeyDown = (event) => {
-			if (event.key === 'Escape') {
-				setIsOpen(false);
-			}
-		};
-		const handleMouseDown = (event) => {
-			if (!modalRef.current || modalRef.current.contains(event.target)) {
-				return;
-			}
-			setIsOpen(false);
-		};
-		document.addEventListener('keydown', handleKeyDown);
-		document.addEventListener('mousedown', handleMouseDown);
-		return () => {
-			document.removeEventListener('keydown', handleKeyDown);
-			document.removeEventListener('mousedown', handleMouseDown);
-		};
-	}, []);
 
 	useEffect(() => {
 		if (
@@ -243,19 +218,6 @@ function Register() {
 					<NavLink to="/signin" className="form__caption-link">
 						У меня есть аккаунт.&#8194;Войти
 					</NavLink>
-					{isOpen ? (
-						<Modal>
-							<section className={styles.ModalPort} ref={modalRef}>
-								<div className={styles.Module}>
-									<img src={logoActivation} className="App-logo" alt="logo" />
-									<h2 className={styles.Message}>
-										После активации аккаунта мы отправим вам электронное письмо.
-										В нём будет ссылка на вашу страницу в приложении.
-									</h2>
-								</div>
-							</section>
-						</Modal>
-					) : null}
 				</main>
 			</div>
 		</div>
@@ -263,3 +225,23 @@ function Register() {
 }
 
 export default Register;
+
+/* useEffect(() => {
+		const handleKeyDown = (event) => {
+			if (event.key === 'Escape') {
+				setIsOpen(false);
+			}
+		};
+		const handleMouseDown = (event) => {
+			if (!modalRef.current || modalRef.current.contains(event.target)) {
+				return;
+			}
+			setIsOpen(false);
+		};
+		document.addEventListener('keydown', handleKeyDown);
+		document.addEventListener('mousedown', handleMouseDown);
+		return () => {
+			document.removeEventListener('keydown', handleKeyDown);
+			document.removeEventListener('mousedown', handleMouseDown);
+		};
+	}, []); */

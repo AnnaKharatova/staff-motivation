@@ -49,21 +49,18 @@
 		border: 1px solid #e2e4e8;
 		outline: none;
 		padding-left: 10px;
+
 		&:focus {
 			border: 1px solid #a4a9b6;
 		}
-		&-filled {
-			width: 80%;
-			color: #525c76;
-			font-size: 14px;
-			font-style: normal;
-			font-weight: 500;
-			line-height: 160%;
-			min-height: 40px;
-			border-radius: 4px;
+
+		&_filled {
 			border: 1px solid #a4a9b6;
-			outline: none;
-			padding-left: 10px;
+		}
+
+		&_no-valid {
+			outline: 1px solid #ff3236;
+			box-shadow: 0 0 0.5px 3px rgba(255, 50, 54, 0.3);
 		}
 
 		&-bottom {
@@ -79,22 +76,19 @@
 			border: 1px solid #e2e4e8;
 			outline: none;
 			padding-left: 10px;
+			padding-right: 10px;
+
 			&:focus {
 				border: 1px solid #a4a9b6;
 			}
-			&-filled {
-				margin-top: 2px;
-				width: 78%;
-				color: #525c76;
-				font-size: 14px;
-				font-style: normal;
-				font-weight: 500;
-				line-height: 160%;
-				min-height: 29px;
-				border-radius: 4px;
+
+			&_filled {
 				border: 1px solid #a4a9b6;
-				outline: none;
-				padding-left: 10px;
+			}
+
+			&_no-valid {
+				outline: 1px solid #ff3236;
+				box-shadow: 0 0 0.5px 3px rgba(255, 50, 54, 0.3);
 			}
 		}
 
@@ -107,15 +101,14 @@
 			display: block;
 			z-index: 2;
 			margin-bottom: 15px;
-			&-filled {
-				padding-top: 10px;
-				height: 76px;
-				width: 82%;
-				border-radius: 4px;
+
+			&_filled {
 				border: 1px solid #a4a9b6;
-				display: block;
-				z-index: 2;
-				margin-bottom: 15px;
+			}
+
+			&_no-valid {
+				outline: 1px solid #ff3236;
+				box-shadow: 0 0 0.5px 3px rgba(255, 50, 54, 0.3);
 			}
 		}
 
@@ -277,7 +270,7 @@
 		border: 1px solid #a673ef;
 		background-color: #fff;
 		margin-bottom: 32px;
-		margin-top: 44px;
+		margin-top: 10px;
 		cursor: pointer;
 
 		&:hover {
@@ -290,6 +283,7 @@
 			color: #fff;
 		}
 	}
+
 	&__info {
 		display: flex;
 		width: 77%;
@@ -313,6 +307,20 @@
 		font-weight: 500;
 		line-height: 160%;
 	}
+
+	&__error-span {
+		margin-top: 35px;
+		display: block;
+		color: #ff3236;
+		font-size: 14px;
+		font-style: normal;
+		font-weight: 500;
+		line-height: 160%;
+	}
+
+	&__error-area {
+		height: 46px;
+	}
 }
 
 @media (max-width: 1024px) {
@@ -322,28 +330,39 @@
 			margin-top: -12px;
 			margin-right: 15px;
 		}
+
 		&__input {
 			width: 80%;
 			min-height: 30px;
+
 			&-bottom {
 				width: 47%;
 			}
 		}
+
 		&__label {
 			margin-bottom: 15px;
+
 			&-bottom {
 				margin-bottom: 0;
 			}
 		}
+
 		&__executor {
 			margin-bottom: 10px;
+
+			&-block {
+				margin-bottom: 10px;
+			}
 		}
+
 		&__executors {
 			&-element {
 				height: 162px;
 				padding-top: 10px;
 			}
 		}
+
 		&__info {
 			width: 80%;
 			margin-bottom: 15px;

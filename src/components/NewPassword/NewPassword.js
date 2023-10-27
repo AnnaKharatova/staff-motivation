@@ -1,6 +1,6 @@
 import './NewPassword.scss';
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { NewPasswordSchema } from '../../utils/ValidationSchemes';
@@ -14,6 +14,7 @@ import styles from '../App/Modal/Modal.module.scss';
 
 function NewPassword() {
 	const navigate = useNavigate();
+	const { uid, token } = useParams();
 	const [isOpen, setIsOpen] = useState(false);
 	const handleLogin = () => {
 		navigate('/signin');
@@ -27,7 +28,6 @@ function NewPassword() {
 	const {
 		register,
 		handleSubmit,
-		// setValue,
 		watch,
 		formState: { errors, isValid, isDirty },
 	} = useForm({
@@ -67,23 +67,21 @@ function NewPassword() {
 			setConfirmPasswordHidden(true);
 		}
 	}
-
 	const onSubmit = (data, evt) => {
 		evt.preventDefault();
 		if (watch('password') === watch('confirmPassword')) {
-			setPassword(data)
+			setPassword(uid, token, data.password)
 				.then(() => {
 					setIsOpen(true);
 				})
 				.catch((err) => {
 					if (err === 400) {
 						setIsError(true);
-						setError(ERROR_MESSAGES.SERVER.REGISTER);
+						setError('Такой пароль не подходит');
 					} else if (err === 500) {
-						navigate('/server-error');
+						navigate(ERROR_MESSAGES.SERVER.ELSE);
 					} else {
-						setIsError(true);
-						setError(ERROR_MESSAGES.SERVER.ELSE);
+						setIsOpen(true);
 					}
 				});
 		} else {
@@ -104,7 +102,7 @@ function NewPassword() {
 						<h2 className="new-password__error">{error}</h2>
 					) : (
 						<h2 className="form__subtitle">
-							Войдите в аккаунт, чтобы получть доступ к приложению
+							Войдите в аккаунт, чтобы получить доступ к приложению
 						</h2>
 					)}
 					<form

@@ -17,8 +17,15 @@ import ModalUpload from './ModalUpload/ModalUpload';
 import ModalDeleteImage from './ModalDeleteImage/ModalDeleteImage';
 import { useUser } from '../context/UserContext';
 import Notifications from './Header/Notifications/Notifications';
-import { getUserData, getNotification } from '../../utils/MainApi';
+import {
+	getUserData,
+	getNotification,
+	getTasks,
+	logout,
+} from '../../utils/MainApi';
 import DevelopingPage from './DevelopingPage/DevelopingPage';
+import ActivateProfile from './ActivateProfile/ActivateProfile';
+import ApprovingRegisterPage from '../Register/ApprovingRegisterPage/ApprovingRegisterPage';
 
 function App() {
 	const [loggedIn, setLoggedIn] = useState(false);
@@ -29,8 +36,10 @@ function App() {
 	const [isDeleteModal, setIsDeleteModal] = useState(false);
 	const [notificationsData, setNotificationsData] = useState([]);
 	const { setUserData } = useUser();
-	const navigate = useNavigate();
 	const [isCheckboxPressed, setCheckboxPressed] = useState(true);
+	const [tasksArray, setTasksArray] = useState([]);
+	const [userId, setUserId] = useState();
+	const navigate = useNavigate();
 	const token = localStorage.getItem('token');
 
 	function removeToken() {
@@ -43,13 +52,20 @@ function App() {
 
 	useEffect(() => {
 		if (loggedIn) {
-			getUserData()
-				.then((data) => {
-					if (data.length > 0) {
-						setUserData(data[0]);
+			Promise.all([getUserData(), getTasks(), getNotification()])
+				.then(([userInfo, tasksArrayData, notification]) => {
+					if (userInfo.length > 0) {
+						setUserData(userInfo[0]);
+						setUserId(userInfo[0].id);
 					} else {
 						console.log('Ответ сервера не содержит данных пользователя.');
 					}
+					const sort = tasksArrayData.sort(
+						(a, b) => new Date(a.created_at) - new Date(b.created_at)
+					);
+					localStorage.setItem('myTasks', JSON.stringify(sort));
+					setNotificationsData(notification);
+					setTasksArray(tasksArrayData);
 				})
 				.catch((res) => {
 					if (res === 500) {
@@ -61,10 +77,20 @@ function App() {
 	}, [navigate, loggedIn, token, setUserData]);
 
 	const handleLogOut = () => {
-		setLoggedIn(false);
-		setIsOpenModalconfirm(false);
-		localStorage.clear();
-		navigate('/signin');
+		logout()
+			.then(() => {
+				setLoggedIn(false);
+				setIsOpenModalconfirm(false);
+				localStorage.clear();
+				navigate('/signin');
+			})
+			.catch((res) => {
+				if (res === 500) {
+					navigate('/server-error');
+				} else {
+					setIsOpenModalconfirm(false);
+				}
+			});
 	};
 	// Confirm modal
 	const handleOpenModalConfirm = () => setIsOpenModalconfirm(true);
@@ -91,23 +117,6 @@ function App() {
 		}, 50);
 	}, []);
 
-	useEffect(() => {
-		if (loggedIn) {
-			const fetchData = async () => {
-				try {
-					const data = await getNotification();
-					setNotificationsData(data);
-				} catch (res) {
-					if (res === 500) {
-						navigate('/server-error');
-					}
-					console.log(res);
-				}
-			};
-			fetchData();
-		}
-	}, [navigate, loggedIn]);
-
 	return (
 		<div className="App">
 			<Routes>
@@ -126,7 +135,7 @@ function App() {
 								onExit={handleLogOut}
 							/>
 							<SideNavbar handleOpenModalConfirm={handleOpenModalConfirm} />
-							<Main />
+							<Main tasksArray={tasksArray} userId={userId} />
 						</ProtectedRoute>
 					}
 				/>
@@ -167,7 +176,7 @@ function App() {
 								onExit={handleLogOut}
 							/>
 							<SideNavbar handleOpenModalConfirm={handleOpenModalConfirm} />
-							<Teamleader />
+							<Teamleader userId={userId} />
 						</ProtectedRoute>
 					}
 				/>
@@ -192,7 +201,10 @@ function App() {
 					}
 				/>
 				<Route path="/signup" element={<Register />} />
-				<Route path="/new-password" element={<NewPassword />} />
+				<Route
+					path="/password/reset/confirm/:uid/:token"
+					element={<NewPassword />}
+				/>
 				<Route
 					path="/signin"
 					element={
@@ -203,8 +215,11 @@ function App() {
 						/>
 					}
 				/>
+				<Route path="/approving-register" element={<ApprovingRegisterPage />} />
 				<Route path="/reset-password" element={<ResetPassword />} />
 				<Route path="/server-error" element={<ServerError />} />
+				<Route path="/activate/:uid/:token" element={<ActivateProfile />} />
+
 				{/* роут для ошибки 404 */}
 			</Routes>
 			{isOpenModalConfirm && (

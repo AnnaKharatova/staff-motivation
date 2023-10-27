@@ -4,7 +4,7 @@
 	padding-top: 150px;
 }
 
-@media (max-width: 1245px) {
+@media (max-width: 1240px) {
 	.teamlead {
 		margin-left: 230px;
 	}
@@ -40,6 +40,7 @@
 }
 
 .popup-teamlead {
+	min-height: 792px;
 	position: absolute;
 	margin: 0;
 	background: #ffffff;
@@ -49,6 +50,22 @@
 	width: 526px;
 	top: 0;
 	left: 59%;
+}
+
+.popup__button-reject {
+	display: block;
+	color: #8247e5;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 160%;
+	width: 200px;
+	height: 36px;
+	border: none;
+	background-color: inherit;
+	margin-bottom: 32px;
+	margin-left: 7%;
+	cursor: pointer;
 }
 
 @media (max-width: 1024px) {

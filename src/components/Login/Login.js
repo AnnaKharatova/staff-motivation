@@ -46,7 +46,6 @@ export default function Login({
 				localStorage.setItem('token', data.auth_token);
 				setLoggedIn(true);
 				navigate('/');
-				console.log(localStorage.getItem('token'));
 			})
 			.catch((err) => {
 				if (err === 400) {

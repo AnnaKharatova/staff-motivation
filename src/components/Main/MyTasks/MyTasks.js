@@ -1,12 +1,18 @@
 import './MyTasks.scss';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import MyTask from '../MyTask/MyTask';
 import iconFilter from '../../../images/SortAscending.png';
-import { getTasks, getTaskInfo, confirmTask } from '../../../utils/MainApi';
+import { getTaskInfo, confirmTask } from '../../../utils/MainApi';
 
-function MyTasks() {
+function MyTasks({ tasksArrayData, userId }) {
 	const navigate = useNavigate();
+	const storagedArray = JSON.parse(localStorage.getItem('myTasks'));
+
+	const storegedTasksToTeamlead = storagedArray
+		? storagedArray.filter((task) => task.assigned_to === userId)
+		: null;
 
 	const [tasksArray, setTasksArray] = useState([]);
 	const [isArray, setArray] = useState(true);
@@ -18,9 +24,12 @@ function MyTasks() {
 	const [popupInfo, setPopupInfo] = useState([]);
 	const [statusName, setStatusName] = useState('');
 	const [isDeadlineSort, setDeadlineSort] = useState(false);
+	const [taskStatus, setTaskStatus] = useState('');
+	const [taskId, setTaskId] = useState();
 
 	const {
 		status,
+		is_overdue,
 		reward_points,
 		title,
 		description,
@@ -37,25 +46,11 @@ function MyTasks() {
 		options
 	);
 	const formattedDateCreated = dateCreated.toLocaleDateString('ru-RU', options);
-	const storagedArray = JSON.parse(localStorage.getItem('myTasks'));
 
 	useEffect(() => {
-		getTasks()
-			.then((data) => {
-				const sort = data.sort(
-					(a, b) => new Date(a.created_at) - new Date(b.created_at)
-				);
-				setTasksArray(sort);
-				localStorage.setItem('myTasks', JSON.stringify(sort));
-			})
-			.catch((res) => {
-				if (res === 500) {
-					navigate('/server-error');
-				} else {
-					setTasksArray([]);
-				}
-			});
-	}, [navigate]);
+		const tasks = tasksArrayData.filter((task) => task.assigned_to === userId);
+		setTasksArray(tasks);
+	}, [tasksArrayData, userId]);
 
 	useEffect(() => {
 		if (tasksArray.length === 0 || null) {
@@ -71,27 +66,27 @@ function MyTasks() {
 		if (status === 'created') {
 			setStatusName('на выполнении');
 		}
-		if (status === 'Просрочена') {
+		if (status === 'created' && is_overdue) {
 			setStatusName('истёк срок задачи');
 		}
-		if (status === 'Принята и выполнена') {
+		if (status === 'approved') {
 			setStatusName('подтверждено');
 		}
 		if (status === 'sent_for_review') {
 			setStatusName('на подтверждении');
 		}
-		if (status === 'rejected') {
+		if (status === 'returned_for_revision') {
 			setStatusName('на доработке');
 		}
-	}, [status]);
+	}, [status, is_overdue]);
 
 	function handleAllTasksSort() {
 		setAllTasksButton(true);
 		setTimeOutTasksButton(false);
 		setInApproveTasksButton(false);
 		setActiveTaskstButton(false);
-		if (storagedArray) {
-			setTasksArray(storagedArray);
+		if (storegedTasksToTeamlead) {
+			setTasksArray(storegedTasksToTeamlead);
 		}
 	}
 
@@ -100,9 +95,10 @@ function MyTasks() {
 		setActiveTaskstButton(true);
 		setTimeOutTasksButton(false);
 		setInApproveTasksButton(false);
-		if (storagedArray) {
-			const filteredTasks = storagedArray.filter(
-				(task) => task.status === 'created' || task.status === 'reject'
+		if (storegedTasksToTeamlead) {
+			const filteredTasks = storegedTasksToTeamlead.filter(
+				(task) =>
+					task.status === 'created' || task.status === 'returned_for_revision'
 			);
 			setTasksArray(filteredTasks);
 		}
@@ -113,8 +109,8 @@ function MyTasks() {
 		setActiveTaskstButton(false);
 		setAllTasksButton(false);
 		setTimeOutTasksButton(false);
-		if (storagedArray) {
-			const filteredTasks = storagedArray.filter(
+		if (storegedTasksToTeamlead) {
+			const filteredTasks = storegedTasksToTeamlead.filter(
 				(task) => task.status === 'sent_for_review'
 			);
 			setTasksArray(filteredTasks);
@@ -126,16 +122,16 @@ function MyTasks() {
 		setInApproveTasksButton(false);
 		setActiveTaskstButton(false);
 		setAllTasksButton(false);
-		if (storagedArray) {
-			const filteredTasks = storagedArray.filter(
-				(task) => task.status === 'Просрочена'
+		if (storegedTasksToTeamlead) {
+			const filteredTasks = storegedTasksToTeamlead.filter(
+				(task) => task.status === 'created' && task.is_overdue
 			);
 			setTasksArray(filteredTasks);
 		}
 	}
 
 	function handleDeadlineSort() {
-		const notToSort = 'sent_for_review' || 'Принята и выполнена';
+		const notToSort = 'sent_for_review' || 'approved';
 
 		if (isDeadlineSort) {
 			setDeadlineSort(false);
@@ -201,12 +197,13 @@ function MyTasks() {
 		confirmTask(id, popupInfo)
 			.then(() => {
 				setIsPopupOpen(false);
+				setTaskId(id);
+				setTaskStatus('sent_for_review');
 			})
 			.catch((res) => {
 				if (res === 500) {
 					navigate('/server-error');
 				}
-				setIsPopupOpen(false);
 			});
 	}
 
@@ -270,7 +267,13 @@ function MyTasks() {
 			{isArray ? (
 				<div className="tasks__list">
 					{tasksArray.map((task) => (
-						<MyTask onClick={handlePopupOpen} task={task} key={task.id} />
+						<MyTask
+							onClick={handlePopupOpen}
+							task={task}
+							key={task.id}
+							taskStatus={taskStatus}
+							taskId={taskId}
+						/>
 					))}
 				</div>
 			) : (
@@ -314,3 +317,16 @@ function MyTasks() {
 	);
 }
 export default MyTasks;
+
+MyTasks.propTypes = {
+	tasksArrayData: PropTypes.arrayOf(
+		PropTypes.shape({
+			title: PropTypes.string,
+			status: PropTypes.string,
+			reward_points: PropTypes.number,
+			deadline: PropTypes.string,
+			id: PropTypes.number,
+		})
+	).isRequired,
+	userId: PropTypes.number.isRequired,
+};

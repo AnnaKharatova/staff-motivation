@@ -2,12 +2,11 @@ import './MyTask.scss';
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-function MyTask({ task, onClick }) {
-	const { status, reward_points, title, deadline, id } = task;
+function MyTask({ task, onClick, taskStatus, taskId }) {
+	const { status, reward_points, title, deadline, id, is_overdue } = task;
 	const date = new Date(deadline);
 	const options = { day: 'numeric', month: 'long' };
 	const formattedDate = date.toLocaleDateString('ru-RU', options);
-
 	const [statusName, setStatusName] = useState('');
 	const [disadledButton, setDisadledButton] = useState(false);
 	const [titleClassName, setTitleClassName] = useState('mytask__title');
@@ -18,6 +17,13 @@ function MyTask({ task, onClick }) {
 	const [disablePopup, setDisablePopup] = useState(false);
 	const [desktopWidth, setDesktopWidth] = useState(true);
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+	const [newStatus, setNewStatus] = useState(status);
+
+	useEffect(() => {
+		if (taskStatus && taskId === id) {
+			setNewStatus(taskStatus);
+		}
+	}, [taskStatus, id, taskId]);
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -38,22 +44,27 @@ function MyTask({ task, onClick }) {
 	}, [windowWidth]);
 
 	useEffect(() => {
-		if (status === 'created') {
+		if (newStatus === 'created') {
 			setStatusName('на выполнении');
 		}
-	}, [status]);
+	}, [newStatus]);
 
 	useEffect(() => {
-		if (status === 'Просрочена') {
+		if (newStatus === 'created' && is_overdue) {
+			setTitleClassName('mytask__title mytask__title-missed');
+			setStatusClassName('mytask__status mytask__status-missed');
+			setBallsClassName('mytask__score mytask__score-missed');
+			setStatusName('истёк срок задачи');
+		} else if (newStatus === 'returned_for_revision' && is_overdue) {
 			setTitleClassName('mytask__title mytask__title-missed');
 			setStatusClassName('mytask__status mytask__status-missed');
 			setBallsClassName('mytask__score mytask__score-missed');
 			setStatusName('истёк срок задачи');
 		}
-	}, [status]);
+	}, [newStatus, is_overdue]);
 
 	useEffect(() => {
-		if (status === 'Принята и выполнена') {
+		if (newStatus === 'approved') {
 			setStatusClassName('mytask__status mytask__status-prove');
 			setBallsClassName('mytask__score mytask__score-done');
 			setTitleClassName('mytask__title mytask__title-done');
@@ -63,23 +74,23 @@ function MyTask({ task, onClick }) {
 			setDataClass('mytask__data mytask__data-done');
 			setDisablePopup(true);
 		}
-	}, [status]);
+	}, [newStatus]);
 
 	useEffect(() => {
-		if (status === 'sent_for_review') {
+		if (newStatus === 'sent_for_review') {
 			setStatusName('на подтверждении');
 			setDeadlieneData(`Выполнено`);
 			setDisadledButton(true);
 			setTitleClassName('mytask__title mytask__title-done');
 			setDisablePopup(true);
 		}
-	}, [status]);
+	}, [newStatus]);
 
 	useEffect(() => {
-		if (status === 'reject') {
+		if (newStatus === 'returned_for_revision') {
 			setStatusName('на доработке');
 		}
-	}, [status]);
+	}, [newStatus]);
 
 	return (
 		<div
@@ -109,6 +120,7 @@ export default MyTask;
 
 MyTask.propTypes = {
 	task: PropTypes.shape({
+		is_overdue: PropTypes.bool,
 		title: PropTypes.string,
 		status: PropTypes.string,
 		reward_points: PropTypes.number,
@@ -116,4 +128,10 @@ MyTask.propTypes = {
 		id: PropTypes.number,
 	}).isRequired,
 	onClick: PropTypes.func.isRequired,
+	taskStatus: PropTypes.string.isRequired,
+	taskId: PropTypes.number,
+};
+
+MyTask.defaultProps = {
+	taskId: null,
 };
