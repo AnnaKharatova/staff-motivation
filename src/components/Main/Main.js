@@ -5,6 +5,7 @@ import MyTasks from './MyTasks/MyTasks';
 import Achievements from './Achievements/Achievements';
 import DinamicWork from './DinamicWork/DinamicWork';
 import { getUsersProgress } from '../../utils/MainApi';
+import UserPoints from '../App/Header/UserPoints/UserPoints';
 
 function Main() {
 	const navigate = useNavigate();
@@ -29,6 +30,10 @@ function Main() {
 		<section className="main-page__section">
 			<div className="main-page__block">
 				<Achievements progressForDeadline={progress_for_deadline} />
+				<div className="user-block">
+					<p className="user-block__text">Статистика</p>
+					<UserPoints />
+				</div>
 				<DinamicWork
 					myDinamic={personal_progress}
 					departmentDinamic={department_progress}

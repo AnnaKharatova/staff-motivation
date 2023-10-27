@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import './ModalUpload.scss';
 import { React, useEffect, useState, useRef } from 'react';
 import { useUser } from '../../context/UserContext';
-import { uploadImage, getUsersInfo, getUserData } from '../../../utils/MainApi';
+import { uploadImage, getUsersInfo } from '../../../utils/MainApi';
 import folder from '../../../images/folder.svg';
 
 function ModalUpload({ onClose }) {
 	const [selectedFile, setSelectedFile] = useState(null);
-	const { setUserData } = useUser();
+	const { handleGetUserData } = useUser();
 	const filePicker = useRef(null);
 
 	const handleChange = (e) => {
@@ -16,20 +16,6 @@ function ModalUpload({ onClose }) {
 
 	const handlePick = () => {
 		filePicker.current.click();
-	};
-
-	const handleGetUserData = () => {
-		getUserData()
-			.then((data) => {
-				if (data.length > 0) {
-					setUserData(data[0]);
-				} else {
-					console.log('Ответ сервера не содержит данных пользователя.');
-				}
-			})
-			.catch((err) => {
-				console.log(err);
-			});
 	};
 
 	const handleUpload = () => {

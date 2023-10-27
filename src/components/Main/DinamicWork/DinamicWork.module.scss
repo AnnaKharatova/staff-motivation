@@ -12,14 +12,12 @@ $background-color_6: #2561ed;
 $background-color_7: #ffad0d;
 
 .main {
-	margin-left: 36px;
+	// margin-left: 36px;
 	bottom: 364px;
 	left: 294px;
 }
 
 .dinamicWork {
-	display: flex;
-	flex-direction: column;
 	text-align: center;
 	max-width: 526px;
 	max-height: 258px;
@@ -27,6 +25,7 @@ $background-color_7: #ffad0d;
 	background-color: $background-color_1;
 	border-radius: 24px;
 	padding: 24px 32px 21px;
+	box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.08);
 }
 
 .toptext {
@@ -102,11 +101,11 @@ $background-color_7: #ffad0d;
 }
 
 @media (max-width: 1240px) {
-	.main {
-		margin: 0 35px;
-	}
+	// .main {
+	// 	margin: 0 35px;
+	// }
 	.dinamicWork {
-		max-width: 458px;
+		max-width: 456px;
 		max-height: 168px;
 		padding: 24px;
 	}

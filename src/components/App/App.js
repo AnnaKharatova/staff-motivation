@@ -125,7 +125,7 @@ function App() {
 								notificationsData={notificationsData}
 								onExit={handleLogOut}
 							/>
-							<SideNavbar />
+							<SideNavbar handleOpenModalConfirm={handleOpenModalConfirm} />
 							<Main />
 						</ProtectedRoute>
 					}
@@ -144,7 +144,7 @@ function App() {
 								notificationsData={notificationsData}
 								onExit={handleLogOut}
 							/>
-							<SideNavbar />
+							<SideNavbar handleOpenModalConfirm={handleOpenModalConfirm} />
 							<Profile
 								handleOpenUploadModal={handleOpenUploadModal}
 								handleOpenDeleteModal={handleOpenDeleteModal}
@@ -166,7 +166,7 @@ function App() {
 								notificationsData={notificationsData}
 								onExit={handleLogOut}
 							/>
-							<SideNavbar />
+							<SideNavbar handleOpenModalConfirm={handleOpenModalConfirm} />
 							<Teamleader />
 						</ProtectedRoute>
 					}
@@ -186,7 +186,7 @@ function App() {
 								notificationsData={notificationsData}
 								onExit={handleLogOut}
 							/>
-							<SideNavbar />
+							<SideNavbar handleOpenModalConfirm={handleOpenModalConfirm} />
 							<DevelopingPage />
 						</ProtectedRoute>
 					}

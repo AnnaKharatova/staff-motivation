@@ -10,6 +10,24 @@ const checkResponse = (res) => {
 	return Promise.reject(res.status);
 };
 
+export function checkDeleteResponse(res) {
+	if (res.ok) {
+		return null;
+	}
+	return Promise.reject(res.status);
+}
+
+export function deleteImage(id) {
+	const token = localStorage.getItem('token');
+	return fetch(`${BASE_URL}/api/users/${id}/delete_image/`, {
+		method: 'DELETE',
+		headers: {
+			Accept: 'application/json',
+			Authorization: `Token ${token}`,
+		},
+	}).then(checkDeleteResponse);
+}
+
 export function uploadImage(file, id) {
 	const token = localStorage.getItem('token');
 	const formData = new FormData();

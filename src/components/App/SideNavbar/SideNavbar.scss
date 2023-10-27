@@ -1,3 +1,49 @@
+.mobile-sidebar {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	width: 258px;
+	background-color: #fff;
+	position: fixed;
+	transition: left 0.5s ease-in-out;
+	left: -100%;
+	z-index: 2;
+	padding: 24px 24px;
+	gap: 40px;
+	overflow-y: hidden;
+
+	&_opened {
+		left: 0;
+		overflow-y: hidden;
+
+		@media (min-width: 768px) {
+			display: none;
+		}
+	}
+}
+
+.mobile-background {
+	background-color: rgba(0, 0, 0, 0.3);
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.5s ease-in-out;
+
+	@media (min-width: 768px) {
+		display: none;
+	}
+
+	&_active {
+		visibility: visible;
+		opacity: 1;
+	}
+}
+
 .side-navbar {
 	min-width: 253px;
 	background-color: #ffffff;
@@ -8,7 +54,7 @@
 	box-sizing: border-box;
 	height: calc(100vh - 152px);
 	position: fixed;
-	top: 152px;
+	top: 150px;
 	border-radius: 0 24px 0 0;
 
 	@media (max-width: 1240px) {
@@ -16,8 +62,12 @@
 	}
 
 	@media (max-width: 1025px) {
-		top: 140px;
+		top: 150px;
 		height: calc(100vh - 140px);
+
+		@media (min-width: 360px) and (max-width: 768px) {
+			visibility: hidden;
+		}
 	}
 
 	&__title-container {
@@ -43,8 +93,14 @@
 		padding: 0;
 		flex-grow: 1;
 
-		@media (max-width: 1025px) {
+		@media (max-width: 1240px) {
 			margin-left: 36px;
+			margin-rigth: 36px;
+		}
+
+		@media (min-width: 360px) and (max-width: 768px) {
+			margin-left: 0;
+			margin-top: 0;
 		}
 
 		&-icon * {
@@ -52,7 +108,7 @@
 			height: 28px;
 			transition: stroke 0.2s linear;
 			fill: none;
-			stroke: #525c76;
+			stroke: #8c93a3;
 		}
 
 		&-item {
@@ -66,35 +122,41 @@
 			text-align: left;
 			align-items: center;
 			height: 42px;
-			color: #525c76;
+			color: #8c93a3;
 			box-sizing: border-box;
 			border-radius: 8px 0 0 8px;
 			cursor: pointer;
 			transition: color 0.2s linear;
 
 			&:hover {
-				color: #3a4662;
+				color: #525c76;
 
 				.side-navbar__navigation-icon * {
-					stroke: #0f1d40;
+					stroke: #525c76;
 				}
 			}
 
 			&:last-child {
 				margin-top: auto;
 				margin-bottom: 0;
+
+				@media (min-width: 360px) and (max-width: 768px) {
+					margin: 0;
+				}
 			}
 
-			&__navigation-icon {
-				width: 28px;
-				height: 28px;
-				stroke: #747c90;
-				fill: none;
+			@media (min-width: 360px) and (max-width: 768px) {
+				margin: 0;
+				font-size: 15px;
 			}
 		}
 
+		&-btn {
+			margin-top: 48px;
+		}
+
 		&-link {
-			color: #525c76;
+			color: #8c93a3;
 			text-decoration: none;
 			transition: color 0.2s linear;
 
@@ -105,7 +167,7 @@
 			}
 
 			&:hover {
-				color: #3a4662;
+				color: #525c76;
 			}
 		}
 	}
