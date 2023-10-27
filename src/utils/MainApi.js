@@ -190,7 +190,6 @@ export function deleteTask(id) {
 // Личные данные
 export function getUsersInfo() {
 	const token = localStorage.getItem('token');
-
 	return fetch(`${BASE_URL}/api/users/me/`, {
 		method: 'GET',
 		headers: {
@@ -250,7 +249,6 @@ export function signup(data) {
 }
 
 export function activateRegister(uid, token) {
-	console.log(uid, token);
 	return fetch(`${BASE_URL}/api/users/activation/`, {
 		method: 'POST',
 		headers: {
@@ -279,62 +277,32 @@ export function logout() {
 			'Content-Type': 'application/json',
 			Authorization: `Token ${token}`,
 		},
-	});
+	}).then(checkResponse);
 }
 
 // запрос на смену пароля
 export function changePassword(email) {
-	const token = localStorage.getItem('token');
 	return fetch(`${BASE_URL}/api/users/reset_password/`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Token ${token}`,
 		},
-		body: JSON.stringify(email),
+		body: JSON.stringify({ email }),
 	}).then(checkResponse);
 }
 
 // новый пароль
-const getResponseData = (response) => {
-	if (!response.ok) {
-		return Promise.reject(response.status);
-	}
-	return response.json();
-};
-
-function request(url, options) {
-	return fetch(`${BASE_URL}${url}`, options).then(getResponseData);
-}
-
-export function setPassword(data) {
-	const token = localStorage.getItem('token');
+export function setPassword(uid, token, data) {
 	const currentData = {
-		first_name: data.firstName,
-		last_name: data.lastName,
-		password: data.password,
-		email: data.email,
-		password_confirmation: data.confirmPassword,
+		uid,
+		token,
+		new_password: data,
 	};
-	return request(`/api/users/set_password/`, {
+	return fetch(`${BASE_URL}/api/users/reset_password_confirm/`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Token ${token}`,
 		},
-		body: JSON.stringify({ currentData }),
-	});
+		body: JSON.stringify(currentData),
+	}).then(checkResponse);
 }
-
-/*
-export function checkToken(token) {
-	return fetch(`${BASE_URL}/users/me`, {
-	method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`, // не знаю используют ли джанго/пайтон беки Бирера
-		},
-	})
-	.then(checkResponse)
-}
-*/
