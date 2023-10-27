@@ -28,7 +28,6 @@ function NewPassword() {
 	const {
 		register,
 		handleSubmit,
-		// setValue,
 		watch,
 		formState: { errors, isValid, isDirty },
 	} = useForm({
@@ -72,22 +71,17 @@ function NewPassword() {
 		evt.preventDefault();
 		if (watch('password') === watch('confirmPassword')) {
 			setPassword(uid, token, data.password)
-				.then((res) => {
-					console.log(res)
+				.then(() => {
 					setIsOpen(true);
 				})
 				.catch((err) => {
-					console.log(err);
 					if (err === 400) {
 						setIsError(true);
-						setError(ERROR_MESSAGES.SERVER.ELSE, err);
-					} else if (err === 204) {
-						setIsOpen(true);
+						setError('Такой пароль не подходит');
 					} else if (err === 500) {
-						navigate('/server-error');
+						navigate(ERROR_MESSAGES.SERVER.ELSE);
 					} else {
-						setIsError(true);
-						setError(ERROR_MESSAGES.SERVER.ELSE, err);
+						setIsOpen(true);
 					}
 				});
 		} else {

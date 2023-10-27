@@ -11,8 +11,6 @@ import Modal from '../App/Modal/Modal';
 import logo1 from '../../images/CircleWavyCheck.svg';
 import styles from '../App/Modal/Modal.module.scss';
 
-// http://localhost:3000/password/reset/confirm/ODk/bwokuu-5ef2500504f8d1a78a4f138cf7c3e27f
-
 export default function ResetPassword() {
 	const [isOpen, setIsOpen] = useState(false);
 	const navigate = useNavigate();
@@ -40,8 +38,7 @@ export default function ResetPassword() {
 		}
 	}, [errors.email, isValid]);
 
-	const onSubmit = (data, evt) => {
-		evt.preventDefault();
+	const onSubmit = (data) => {
 		changePassword(data.email)
 			.then(() => {
 				setIsOpen(true);
@@ -53,8 +50,7 @@ export default function ResetPassword() {
 				} else if (err === 500) {
 					navigate('/server-error');
 				} else {
-					setIsError(true);
-					setError(ERROR_MESSAGES.SERVER.ELSE);
+					setIsOpen(true);
 				}
 			});
 	};

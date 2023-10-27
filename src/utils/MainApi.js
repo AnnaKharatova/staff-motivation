@@ -7,7 +7,7 @@ const checkResponse = (res) => {
 	if (res.ok) {
 		return res.json();
 	}
-	return Promise.reject(res);
+	return Promise.reject(res.status);
 };
 
 // Header
@@ -177,7 +177,6 @@ export function editTask(id, data) {
 // Личные данные
 export function getUsersInfo() {
 	const token = localStorage.getItem('token');
-
 	return fetch(`${BASE_URL}/api/users/me/`, {
 		method: 'GET',
 		headers: {
@@ -237,7 +236,6 @@ export function signup(data) {
 }
 
 export function activateRegister(uid, token) {
-	console.log(uid, token);
 	return fetch(`${BASE_URL}/api/users/activation/`, {
 		method: 'POST',
 		headers: {
@@ -295,16 +293,3 @@ export function setPassword(uid, token, data) {
 		body: JSON.stringify(currentData),
 	}).then(checkResponse);
 }
-
-/*
-export function checkToken(token) {
-	return fetch(`${BASE_URL}/users/me`, {
-	method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`, // не знаю используют ли джанго/пайтон беки Бирера
-		},
-	})
-	.then(checkResponse)
-}
-*/
