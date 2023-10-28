@@ -17,9 +17,15 @@
 		width: 1024px;
 	}
 
+	@media (min-width: 360px) and (max-width: 768px) {
+		width: 100vw;
+		height: 64px;
+		padding: 12px 0;
+	}
+
 	&_scrolling {
 		box-shadow: 0px 12px 19px -5px rgba(0, 0, 0, 0.08);
-		transition: 0.2s linear;
+		transition: 0.4s linear;
 	}
 
 	&__container {
@@ -31,8 +37,14 @@
 		box-sizing: border-box;
 		z-index: 2;
 		height: 80px;
+
 		@media (min-width: 1024px) and (max-width: 1280px) {
-			margin: 0 44px;
+			margin: 0 36px;
+		}
+
+		@media (min-width: 360px) and (max-width: 768px) {
+			margin: 0 16px;
+			height: 40px;
 		}
 	}
 
@@ -49,8 +61,13 @@
 		box-sizing: border-box;
 		padding: 5px 0 5px;
 
-		@media (max-width: 1025px) {
-			margin-right: 36px;
+		@media (max-width: 1280px) {
+			margin-right: 94px;
+		}
+
+		@media (min-width: 360px) and (max-width: 768px) {
+			top: 2px;
+			margin-right: 0;
 		}
 
 		&::before {
@@ -74,6 +91,7 @@
 		align-items: center;
 		width: 340px;
 		margin-right: 60px;
+		background-color: #fff;
 
 		@media (max-width: 1280px) {
 			width: 320px;
@@ -84,12 +102,21 @@
 			margin-right: 36px;
 			width: 320px;
 		}
+
+		@media (min-width: 360px) and (max-width: 768px) {
+			margin-right: 0;
+			flex-direction: column;
+			gap: 8px;
+			align-items: flex-start;
+			width: 100%;
+		}
 	}
 
 	&__photo {
 		width: 80px;
 		height: 80px;
 		border-radius: 50%;
+		object-fit: cover;
 	}
 
 	&__plug {
@@ -131,12 +158,9 @@
 		flex-direction: row;
 		gap: 56px;
 
-		@media (min-width: 1025px) and (max-width: 1280px) {
-			gap: 32px;
-		}
-
-		@media (max-width: 1025px) {
-			gap: 32px;
+		@media (max-width: 1240px) {
+			gap: 39px;
+			display: flex;
 		}
 	}
 
@@ -170,6 +194,31 @@
 
 		&_place {
 			text-align: left;
+		}
+	}
+
+	&__burger-btn {
+		display: none;
+		background-image: url('../../../images/Burger-menu.svg');
+		background-repeat: no-repeat;
+		background-size: 24px 24px;
+		align-items: center;
+		justify-content: center;
+		width: 24px;
+		height: 24px;
+		margin-right: 20px;
+		box-sizing: border-box;
+		transition: opacity .2s linear;
+		cursor: pointer;
+		border: none;
+		background-color: transparent;
+
+		&:hover {
+			opacity: .8;
+		}
+
+		@media (min-width: 360px) and (max-width: 768px) {
+			display: flex;
 		}
 	}
 
@@ -245,6 +294,10 @@
 
 		&:hover {
 			opacity: 0.8;
+		}
+
+		@media (min-width: 360px) and (max-width: 768px) {
+			display: none;
 		}
 	}
 }

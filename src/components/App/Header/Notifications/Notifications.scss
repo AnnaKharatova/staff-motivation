@@ -71,7 +71,7 @@
 		display: flex;
 		flex-direction: row;
 		gap: 16px;
-		block-size: border-box;
+		box-sizing: border-box;
 		min-height: 58px;
 		width: calc(100% - 16px);
 		font-size: 16px;
@@ -82,9 +82,9 @@
 		border-top: 1px solid #e2e4e8;
 		align-items: center;
 
-		&:last-child {
-			border-bottom: 1px solid #e2e4e8;
-		}
+		// &:last-child {
+		// 	border-bottom: 1px solid #e2e4e8;
+		//   }
 	}
 
 	&__data {

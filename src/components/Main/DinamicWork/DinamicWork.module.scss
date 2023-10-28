@@ -12,21 +12,20 @@ $background-color_6: #2561ed;
 $background-color_7: #ffad0d;
 
 .main {
-	margin-left: 38px;
+	// margin-left: 36px;
 	bottom: 364px;
 	left: 294px;
 }
 
 .dinamicWork {
-	display: flex;
-	flex-direction: column;
 	text-align: center;
 	max-width: 460px;
 	height: 212px;
 	margin: 0 auto;
 	background-color: $background-color_1;
 	border-radius: 24px;
-	padding: 24px 32px 22px;
+	padding: 24px 32px 21px;
+	box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.08);
 }
 
 .toptext {
@@ -102,11 +101,11 @@ $background-color_7: #ffad0d;
 }
 
 @media (max-width: 1240px) {
-	.main {
-		margin: 0 35px;
-	}
+	// .main {
+	// 	margin: 0 35px;
+	// }
 	.dinamicWork {
-		max-width: 458px;
+		max-width: 456px;
 		max-height: 168px;
 		padding: 24px;
 	}
