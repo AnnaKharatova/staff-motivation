@@ -277,7 +277,12 @@ export function logout() {
 			'Content-Type': 'application/json',
 			Authorization: `Token ${token}`,
 		},
-	}).then(checkResponse);
+	}).then((res) => {
+		if (res.ok) {
+			return null;
+		}
+		return Promise.reject(res.status);
+	});
 }
 
 // запрос на смену пароля
