@@ -10,6 +10,38 @@ const checkResponse = (res) => {
 	return Promise.reject(res.status);
 };
 
+export function checkDeleteResponse(res) {
+	if (res.ok) {
+		return null;
+	}
+	return Promise.reject(res.status);
+}
+
+export function deleteImage(id) {
+	const token = localStorage.getItem('token');
+	return fetch(`${BASE_URL}/api/users/${id}/delete_image/`, {
+		method: 'DELETE',
+		headers: {
+			Accept: 'application/json',
+			Authorization: `Token ${token}`,
+		},
+	}).then(checkDeleteResponse);
+}
+
+export function uploadImage(file, id) {
+	const token = localStorage.getItem('token');
+	const formData = new FormData();
+	formData.append('image', file);
+	return fetch(`${BASE_URL}/api/users/${id}/upload_image/`, {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			Authorization: `Token ${token}`,
+		},
+		body: formData,
+	}).then(checkResponse);
+}
+
 // Header
 export function getUserData() {
 	const token = localStorage.getItem('token');
@@ -30,7 +62,6 @@ export function getNotification() {
 		headers: {
 			Accept: 'application/json',
 			'Content-Type': 'application/json',
-			// Authorization: `Token cccee5de88c1aae699e77440edfc7e93373ab3d4`,
 			Authorization: `Token ${token}`,
 		},
 	}).then(checkResponse);
@@ -96,7 +127,6 @@ export function confirmTask(id, data) {
 			Accept: 'application/json',
 			'Content-Type': 'application/json',
 			Authorization: `Token ${token}`,
-			// Authorization: `Token cccee5de88c1aae699e77440edfc7e93373ab3d4`,
 		},
 		body: JSON.stringify({ data }),
 	}).then(checkResponse);

@@ -1,23 +1,25 @@
 import { useForm } from 'react-hook-form';
-import React /* , { useEffect, useState } */ from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import './PersonalData.scss';
-import changePhoto from '../../../images/change-photo.svg';
+import PropTypes from 'prop-types';
+import ModalMenuImage from './ModalMenuImage/ModalMenuImage';
+import { useUser } from '../../context/UserContext';
 import { setUsersInfo } from '../../../utils/MainApi';
-// import photoProfile from '../../images/plug.svg';
+import changePhoto from '../../../images/change-photo.svg';
 
-function PersonalData({ personalData, contacts }) {
-	const {
-		register,
-		handleSubmit,
-		// getValues,
-		// watch, // для отслеживания input value
-		// formState: { errors, isValid, isDirty },
-	} = useForm({
+function PersonalData({
+	personalData,
+	contacts,
+	handleOpenUploadModal,
+	handleOpenModalMenu,
+	handleCloseModalMenu,
+	handleOpenDeleteModal,
+	isMenuModal,
+}) {
+	const { register, handleSubmit } = useForm({
 		mode: 'onTouched',
-		// resolver: yupResolver(LoginSchema),
 	});
-
+	const { userData } = useUser();
 	const firstNameInitial = personalData.first_name
 		? personalData.first_name.charAt(0).toUpperCase()
 		: '';
@@ -45,10 +47,10 @@ function PersonalData({ personalData, contacts }) {
 	return (
 		<section className="personal-data">
 			<div className="personal-data__photo-container">
-				{personalData.image ? (
+				{userData && userData.image ? (
 					<img
 						className="personal-data__photo"
-						src={personalData.image}
+						src={userData.image}
 						alt="Фотография сотрудника"
 					/>
 				) : (
@@ -58,7 +60,11 @@ function PersonalData({ personalData, contacts }) {
 				<p className="personal-data__job">{personalData.role || ' '}</p>
 				<p className="personal-data__department">{personalData.department}</p>
 				<p className="personal-data__level">{`Уровень: ${personalData.position}`}</p>
-				<button className="personal-data__change-photo-button" type="button">
+				<button
+					className="personal-data__change-photo-button"
+					type="button"
+					onClick={handleOpenModalMenu}
+				>
 					<img
 						className="personal-data__change-photo-logo"
 						src={changePhoto}
@@ -166,6 +172,13 @@ function PersonalData({ personalData, contacts }) {
 					</button>
 				</form>
 			</div>
+			{isMenuModal && (
+				<ModalMenuImage
+					onClose={handleCloseModalMenu}
+					handleOpenUploadModal={handleOpenUploadModal}
+					handleOpenDeleteModal={handleOpenDeleteModal}
+				/>
+			)}
 		</section>
 	);
 }
@@ -173,8 +186,12 @@ function PersonalData({ personalData, contacts }) {
 export default PersonalData;
 
 PersonalData.propTypes = {
+	handleOpenUploadModal: PropTypes.func.isRequired,
+	handleOpenModalMenu: PropTypes.func.isRequired,
+	handleCloseModalMenu: PropTypes.func.isRequired,
+	handleOpenDeleteModal: PropTypes.func.isRequired,
+	isMenuModal: PropTypes.bool.isRequired,
 	contacts: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-
 	personalData: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
