@@ -71,6 +71,9 @@ function App() {
 					if (res === 500) {
 						navigate('/server-error');
 					}
+					if (res === 401) {
+						navigate('/signin');
+					}
 					console.log(res);
 				});
 		}

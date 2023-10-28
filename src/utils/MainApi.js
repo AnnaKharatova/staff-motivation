@@ -10,7 +10,7 @@ const checkResponse = (res) => {
 	return Promise.reject(res.status);
 };
 
-export function checkDeleteResponse(res) {
+export function checkNullResponse(res) {
 	if (res.ok) {
 		return null;
 	}
@@ -25,7 +25,7 @@ export function deleteImage(id) {
 			Accept: 'application/json',
 			Authorization: `Token ${token}`,
 		},
-	}).then(checkDeleteResponse);
+	}).then(checkNullResponse);
 }
 
 export function uploadImage(file, id) {
@@ -272,7 +272,7 @@ export function activateRegister(uid, token) {
 			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify({ uid, token }),
-	});
+	}).then(checkNullResponse);
 }
 
 // вход/авторизация
@@ -294,7 +294,7 @@ export function logout() {
 			'Content-Type': 'application/json',
 			Authorization: `Token ${token}`,
 		},
-	}).then(checkResponse);
+	}).then(checkNullResponse);
 }
 
 // запрос на смену пароля
@@ -305,7 +305,7 @@ export function changePassword(email) {
 			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify({ email }),
-	}).then(checkResponse);
+	}).then(checkNullResponse);
 }
 
 // новый пароль
@@ -321,5 +321,5 @@ export function setPassword(uid, token, data) {
 			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify(currentData),
-	}).then(checkResponse);
+	}).then(checkNullResponse);
 }
