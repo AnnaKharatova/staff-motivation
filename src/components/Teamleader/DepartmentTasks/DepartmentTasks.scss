@@ -4,7 +4,7 @@
 		padding: 0;
 
 		&:first-of-type {
-			margin-top: 20px;
+			margin-top: 25px;
 		}
 	}
 
@@ -16,8 +16,9 @@
 		gap: 20px;
 		background-color: #fafafb;
 		border: none;
-		margin: 0 0 10px 0;
+		margin: 0 0 18px 0;
 		cursor: pointer;
+
 		&-open {
 			background-color: inherit;
 		}
@@ -34,6 +35,7 @@
 			align-self: center;
 		}
 	}
+
 	&__add-task {
 		padding-left: 32px;
 		border: none;
@@ -44,6 +46,9 @@
 		font-style: normal;
 		font-weight: 500;
 		line-height: 160%;
+		margin-top: -10px;
+		box-sizing: border-box;
+		display: block;
 	}
 }
 
@@ -54,11 +59,26 @@
 			gap: 15px;
 			margin: 0 0 8px 0;
 		}
+
 		&-title {
 			font-size: 16px;
 		}
+
 		&__add-task {
 			padding-left: 22px;
 		}
+		&__departments {
+			&:first-of-type {
+				margin-top: 18px;
+			}
+		}
+		&__add-task {
+
+			margin-top: 0;
+
+		}
 	}
-}
+	
+	}
+
+

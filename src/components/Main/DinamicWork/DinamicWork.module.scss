@@ -105,9 +105,10 @@ $background-color_7: #ffad0d;
 	// 	margin: 0 35px;
 	// }
 	.dinamicWork {
+		margin-top: -6px;
 		max-width: 456px;
 		max-height: 168px;
-		padding: 24px;
+		padding: 20px 24px;
 	}
 	.toptext {
 		font-size: 20px;
@@ -125,5 +126,8 @@ $background-color_7: #ffad0d;
 	.text {
 		font-size: 14px;
 		padding: 0;
+	}
+	.texth3 {
+		margin-top: -4px;
 	}
 }

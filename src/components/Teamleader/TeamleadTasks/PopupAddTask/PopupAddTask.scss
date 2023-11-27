@@ -7,6 +7,16 @@
 	margin: 0;
 	padding: 0;
 
+	&__header {
+		margin: 0 auto;
+		padding-top: 50px;
+		padding-bottom: 32px;
+		width: 77%;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
 	&__form {
 		margin: 0 auto;
 		width: 77%;
@@ -22,7 +32,7 @@
 		display: flex;
 		flex-direction: column;
 		padding: 10px 0 0;
-		margin: 0 0 24px;
+		margin: 0 0 20px;
 
 		&-bottom {
 			color: #525c76;
@@ -38,7 +48,7 @@
 	}
 
 	&__input {
-		width: 80%;
+		width: 78%;
 		color: #525c76;
 		font-size: 14px;
 		font-style: normal;
@@ -64,8 +74,7 @@
 		}
 
 		&-bottom {
-			margin-top: 2px;
-			width: 78%;
+			width: 76%;
 			color: #525c76;
 			font-size: 14px;
 			font-style: normal;
@@ -93,14 +102,14 @@
 		}
 
 		&-area {
-			padding-top: 10px;
-			height: 76px;
-			width: 82%;
+			padding-top: 5px;
+			height: 87px;
+			width: 81%;
 			border-radius: 4px;
 			border: 1px solid #e2e4e8;
 			display: block;
 			z-index: 2;
-			margin-bottom: 15px;
+			margin-bottom: 19px;
 
 			&_filled {
 				border: 1px solid #a4a9b6;
@@ -156,6 +165,7 @@
 
 	&__executors {
 		padding: 6px 0 4px;
+		margin-bottom: 10px;
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
@@ -163,7 +173,7 @@
 		&-element {
 			margin: 0;
 			width: 200px;
-			height: 188px;
+			height: 192px;
 			border-radius: 4px;
 			border: 1px solid #cacdd5;
 			display: flex;
@@ -222,7 +232,6 @@
 		line-height: 160%;
 		display: flex;
 		flex-direction: column;
-		padding: 6px;
 		margin: 0;
 		padding: 0;
 
@@ -265,7 +274,7 @@
 		font-weight: 500;
 		line-height: 160%;
 		width: 200px;
-		height: 36px;
+		height: 34px;
 		border-radius: 3px;
 		border: 1px solid #a673ef;
 		background-color: #fff;
@@ -289,6 +298,7 @@
 		width: 77%;
 		flex-direction: row;
 		margin: 0 auto;
+		gap: 65px;
 	}
 
 	&__status {
@@ -297,7 +307,7 @@
 		font-style: normal;
 		font-weight: 500;
 		line-height: 160%;
-		margin-left: 65px;
+		margin: 0;
 	}
 
 	&__created {
@@ -306,6 +316,7 @@
 		font-style: normal;
 		font-weight: 500;
 		line-height: 160%;
+		margin: 0;
 	}
 
 	&__error-span {
@@ -319,24 +330,37 @@
 	}
 
 	&__error-area {
-		height: 46px;
+		height: 38px;
 	}
 }
 
 @media (max-width: 1024px) {
 	.popup-addtask {
+		&__header {
+			padding-top: 38px;
+			padding-bottom: 26px;
+			padding-left: 0;
+			margin-left: 48px;
+		}
+
 		&__form {
-			width: 87%;
+			width: 86%;
 			margin-top: -12px;
 			margin-right: 15px;
 		}
 
 		&__input {
-			width: 80%;
+			width: 81%;
 			min-height: 30px;
+			margin-top: 3px;
 
 			&-bottom {
-				width: 47%;
+				width: 46%;
+				margin-top: 4px;
+			}
+
+			&-area {
+				width: 84%;
 			}
 		}
 
@@ -345,11 +369,13 @@
 
 			&-bottom {
 				margin-bottom: 0;
+				padding-top: 15px;
 			}
 		}
 
 		&__executor {
-			margin-bottom: 10px;
+			margin-bottom: 0;
+			margin-top: -5px;
 
 			&-block {
 				margin-bottom: 10px;
@@ -360,12 +386,20 @@
 			&-element {
 				height: 162px;
 				padding-top: 10px;
+				margin-bottom: 0;
 			}
 		}
 
 		&__info {
 			width: 80%;
 			margin-bottom: 15px;
+		}
+
+		&__error-span {
+			margin-top: 15px;
+		}
+		&__button {
+			margin-top: 0;
 		}
 	}
 }

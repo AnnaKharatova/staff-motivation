@@ -3,7 +3,54 @@
 		margin-left: 0;
 		text-align: left;
 	}
+
 	&__error-area {
-		height: 58px;
+		height: 45px;
+	}
+
+	&__description {
+		color: #525c76;
+		font-size: 14px;
+		font-style: normal;
+		font-weight: 500;
+		line-height: 160%;
+		padding: 0;
+		margin-left: 60px;
+		margin-top: 20px;
+		margin-bottom: 3px;
+	}
+
+	&__label-bottom {
+		padding-top: 0;
+	}
+
+	&__button {
+		margin-top: 5px;
+		margin-bottom: 15px;
+		text-align: center;
+
+		&-delete {
+			text-align: start;
+			margin-left: 0;
+		}
 	}
 }
+
+	@media (max-width: 1024px) {
+		.popup-edit {
+
+			&__description {
+				margin-left: 50px;
+				margin-top: 20px;
+				margin-bottom: 20px;
+			}
+			&__label-bottom {
+				padding-top: 10px;
+			}
+			
+	&__error-area {
+		height: 33px;
+	}
+		}
+	}
+

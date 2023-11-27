@@ -140,7 +140,7 @@ function PopupAddTask({
 			onKeyDown={null}
 		>
 			<div className="popup-teamlead">
-				<div className="popup__header">
+				<div className="popup-addtask__header">
 					<h3 className="popup-addtask">Новая задача</h3>
 					<button className="popup__close-button" onClick={closePopupButton}>
 						{}

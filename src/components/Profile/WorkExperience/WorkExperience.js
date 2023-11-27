@@ -1,12 +1,12 @@
 import './WorkExperience.scss';
-import React, { useState, useEffect } from 'react';
+import React /* { useState, useEffect } */ from 'react';
 import PropTypes from 'prop-types';
 
 function WorkExperience({ hardSkills }) {
-	const [desktopWidth, setDesktopWidth] = useState(true);
-	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+	// const [desktopWidth, setDesktopWidth] = useState(true);
+	// const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-	useEffect(() => {
+	/* useEffect(() => {
 		const handleResize = () => {
 			setWindowWidth(window.innerWidth);
 		};
@@ -16,13 +16,13 @@ function WorkExperience({ hardSkills }) {
 		return () => {
 			window.removeEventListener('resize', handleResize);
 		};
-	}, []);
+	}, []); */
 
-	useEffect(() => {
+	/* useEffect(() => {
 		if (windowWidth <= 1024) {
 			setDesktopWidth(false);
 		}
-	}, [windowWidth]);
+	}, [windowWidth]); */
 
 	return (
 		<>
@@ -36,7 +36,7 @@ function WorkExperience({ hardSkills }) {
 					<p className="section__text">Рабочий стаж в компании:&nbsp;</p>
 					<p className="section__text-data">3 года 2 месяца</p>
 				</div>
-				{desktopWidth ? (
+				{/* {desktopWidth ? (
 					<>
 						<h2 className="section__title">HardSkills</h2>
 						<ul className="section__hardskills-list">
@@ -47,20 +47,18 @@ function WorkExperience({ hardSkills }) {
 							))}
 						</ul>
 					</>
-				) : null}
+				) : null} */}
 			</section>
-			{!desktopWidth ? (
-				<section className="section">
-					<h2 className="section__title">HardSkills</h2>
-					<ul className="section__hardskills-list">
-						{hardSkills.map((skill) => (
-							<li className="section__hardskills-item" key={skill.name}>
-								{skill.name}
-							</li>
-						))}
-					</ul>
-				</section>
-			) : null}
+			<section className="section">
+				<h2 className="section__title">HardSkills</h2>
+				<ul className="section__hardskills-list">
+					{hardSkills.map((skill) => (
+						<li className="section__hardskills-item" key={skill.name}>
+							{skill.name}
+						</li>
+					))}
+				</ul>
+			</section>
 		</>
 	);
 }

@@ -188,7 +188,7 @@ function PopupEditTask({
 			onKeyDown={null}
 		>
 			<div className="popup-teamlead">
-				<div className="popup__header">
+				<div className="popup-addtask__header">
 					<h3 className="popup-addtask">{title}</h3>
 					<button className="popup__close-button" onClick={closePopupButton}>
 						{}
@@ -196,11 +196,12 @@ function PopupEditTask({
 				</div>
 				<div className="popup-addtask__info">
 					<p className="popup-addtask__created">
-						Создана {formattedDateCreated}
+						Создана: &nbsp; {formattedDateCreated}
 					</p>
-					<p className="popup-addtask__status">Статус: {statusName}</p>
+					<p className="popup-addtask__status">Статус: &nbsp; {statusName}</p>
 				</div>
 
+				<p className="popup-edit__description">Описание</p>
 				<form className="popup-addtask__form" onSubmit={handleSubmit(onSubmit)}>
 					<div
 						className={`popup-addtask__input-area ${
@@ -271,7 +272,10 @@ function PopupEditTask({
 						/>
 					</label>
 
-					<label className="popup-addtask__label-bottom" htmlFor="balls">
+					<label
+						className="popup-addtask__label-bottom popup-edit__label-bottom"
+						htmlFor="balls"
+					>
 						Баллы за выполнение
 						<input
 							className={`popup-addtask__input-bottom ${
@@ -299,11 +303,14 @@ function PopupEditTask({
 						<div className="popup-addtask__error-area popup-edit__error-area" />
 					)}
 
-					<button className="popup-addtask__button" type="submit">
+					<button
+						className="popup-addtask__button popup-edit__button"
+						type="submit"
+					>
 						Сохранить изменения
 					</button>
 					<button
-						className="popup__button-reject popup-edit__button"
+						className="popup__button-reject popup-edit__button-delete"
 						onClick={handleDeleteTask}
 					>
 						Удалить задачу

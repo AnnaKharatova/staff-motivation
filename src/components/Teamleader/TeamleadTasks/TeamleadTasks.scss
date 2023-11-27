@@ -1,6 +1,6 @@
 .teamlead {
 	display: block;
-	margin-left: 280px;
+	margin-left: 290px;
 	padding-top: 150px;
 }
 
@@ -24,17 +24,24 @@
 		margin: 0;
 	}
 
-	@media (max-width: 1024px) {
-		.teamlead-tasks {
-			&__nav {
-				flex-wrap: wrap;
-				gap: 4px;
-				margin-bottom: 0;
-			}
-			&__filter {
-				padding-right: 10px;
-				padding-top: 10px;
-			}
+	&__nav{
+		margin-top: 8px;
+		margin-bottom: 15px;
+		row-gap: 10px;
+	}
+}
+@media (max-width: 1024px) {
+	.teamlead-tasks {
+		&__nav {
+			flex-wrap: wrap;
+			gap: 4px;
+			margin-top: 0;
+			margin-bottom: 0;
+			margin-left: 2px;
+		}
+		&__filter {
+			padding-right: 10px;
+			padding-top: 10px;
 		}
 	}
 }
@@ -66,6 +73,7 @@
 	margin-bottom: 32px;
 	margin-left: 7%;
 	cursor: pointer;
+	margin-top: -12px;
 }
 
 @media (max-width: 1024px) {

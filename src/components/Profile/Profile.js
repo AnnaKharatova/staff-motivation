@@ -48,8 +48,8 @@ function Profile({ handleOpenUploadModal, handleOpenDeleteModal }) {
 							isMenuModal={isMenuModal}
 						/>
 						<div className="profile__sections">
-							<WorkExperience hardSkills={hardSkills} />
 							<ProgressDiagram />
+							<WorkExperience hardSkills={hardSkills} />
 						</div>
 					</div>
 					<TrackRecord />

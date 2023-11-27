@@ -160,19 +160,27 @@
 
 @media (max-width: 1240px) {
 	.mytask {
+		box-sizing: border-box;
 		&__title {
 			width: 200px;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
 		}
+		&__status {
+			width: 20%;
+		}
+		&__button {
+			width: 28%;
+		}
 	}
+
 }
 
 @media (max-width: 1024px) {
 	.mytask {
 		&__score {
-			width: 10%;
+			width: 5%;
 		}
 		&__data {
 			width: 12%;

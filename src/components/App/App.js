@@ -70,8 +70,7 @@ function App() {
 				.catch((res) => {
 					if (res === 500) {
 						navigate('/server-error');
-					}
-					if (res === 401) {
+					} else if (res === 401) {
 						navigate('/signin');
 					}
 					console.log(res);
