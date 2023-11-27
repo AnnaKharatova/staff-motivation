@@ -14,7 +14,7 @@
 		background-color: inherit;
 		cursor: auto;
 	}
-	&__task-title{
+	&__task-title {
 		padding-bottom: 8px;
 		width: 60%;
 	}
@@ -38,7 +38,5 @@
 @media (max-width: 1024px) {
 	.department-task {
 		padding-left: 0;
-
-		}
-	
+	}
 }

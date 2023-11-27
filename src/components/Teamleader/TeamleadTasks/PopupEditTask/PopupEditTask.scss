@@ -36,21 +36,19 @@
 	}
 }
 
-	@media (max-width: 1024px) {
-		.popup-edit {
+@media (max-width: 1024px) {
+	.popup-edit {
+		&__description {
+			margin-left: 50px;
+			margin-top: 20px;
+			margin-bottom: 20px;
+		}
+		&__label-bottom {
+			padding-top: 10px;
+		}
 
-			&__description {
-				margin-left: 50px;
-				margin-top: 20px;
-				margin-bottom: 20px;
-			}
-			&__label-bottom {
-				padding-top: 10px;
-			}
-			
-	&__error-area {
-		height: 33px;
-	}
+		&__error-area {
+			height: 33px;
 		}
 	}
-
+}
