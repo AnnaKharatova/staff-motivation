@@ -4,7 +4,7 @@ $accentLightGrey900: #8c93a3;
 
 .achievements {
 	// margin: 0 64px 0 36px;
-	width: 47%;
+	width: 49%;
 	// width: 531px;
 	min-height: 134px;
 	background-color: #fff;
@@ -25,7 +25,7 @@ $accentLightGrey900: #8c93a3;
 	&__stats-container {
 		display: flex;
 		flex-direction: row;
-		gap: 10px;
+		gap: 16px;
 		margin: 24px 32px 0;
 		list-style: none;
 		padding: 0;
@@ -34,11 +34,11 @@ $accentLightGrey900: #8c93a3;
 	&__achieve {
 		display: flex;
 		flex-direction: column;
-		width: 50%;
+		width: 49.5%;
 	}
 
 	&__name {
-		margin: 0;
+		margin: 0 0 0 2px;
 		font-size: 18px;
 		font-weight: 500;
 		line-height: 28px;
@@ -68,7 +68,7 @@ $accentLightGrey900: #8c93a3;
 	}
 
 	&__completion {
-		margin: 0 0 0 4px;
+		margin: 2px 0 0 4px;
 		font-size: 14px;
 		font-weight: 400;
 		line-height: 22px;
@@ -84,7 +84,6 @@ $accentLightGrey900: #8c93a3;
 		padding-bottom: 50px;
 		grid-row: span 2;
 		padding: 0;
-
 
 		&__stats-container {
 			margin: 18px 26px 0;

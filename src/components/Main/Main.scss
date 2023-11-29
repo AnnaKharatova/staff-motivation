@@ -47,21 +47,21 @@
 
 .main-page__section {
 	display: block;
-	margin-left: 260px;
+	margin-left: 265px;
 }
 
 .main-page__block {
 	display: flex;
 	padding-top: 150px;
-	margin: 0 64px 0 36px;
+	margin: 0 64px 0 26px;
 	gap: 36px;
 
 	@media (max-width: 1240px) {
 		display: grid;
-		margin: 0 36px;
+		margin: 0 26px;
 		grid-template-columns: 260px 1fr;
 		grid-template-rows: auto auto;
-		grid-gap: 36px 32px;
+		grid-gap: 33px 36px;
 		width: 752px;
 	}
 

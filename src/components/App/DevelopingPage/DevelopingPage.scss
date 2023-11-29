@@ -3,8 +3,8 @@
 	height: 400px;
 	display: flex;
 	position: fixed;
-	top: 0;
-	left: 0;
+	top: 10px;
+	left: 190px;
 	bottom: 0;
 	right: 0;
 	justify-content: center;
@@ -50,7 +50,8 @@
 	.developing {
 		width: 471px;
 		height: 302px;
-		left: 10%;
+		left: 5%;
+		bottom: 11%;
 		&__image {
 			width: 70px;
 			height: 70px;

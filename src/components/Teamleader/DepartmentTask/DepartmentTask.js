@@ -15,9 +15,12 @@ function DepartmentTask({ task, onClick, users, taskStatus, taskId }) {
 	);
 	const [statusClassName, setStatusClassName] = useState('mytask__status');
 	const [deadlineData, setDeadlieneData] = useState(formattedDate);
-	const [dataClass, setDataClass] = useState('mytask__data');
+	const [dataClass, setDataClass] = useState(
+		'mytask__data department-task__data'
+	);
 	const [executor, setExecutor] = useState('');
 	const [currentTaskStatus, setCurrentTaskStatus] = useState(status);
+	const [noHoverTask, setNoHoverTask] = useState(false);
 
 	useEffect(() => {
 		if (taskStatus && taskId === id) {
@@ -27,7 +30,8 @@ function DepartmentTask({ task, onClick, users, taskStatus, taskId }) {
 
 	useEffect(() => {
 		const userName = users.find((user) => user.id === assigned_to);
-		setExecutor(`${userName.last_name} ${userName.first_name}`);
+		const lastNameInitial = userName.first_name.charAt(0);
+		setExecutor(`${userName.last_name} ${lastNameInitial}.`);
 	}, [users, assigned_to]);
 
 	useEffect(() => {
@@ -61,6 +65,7 @@ function DepartmentTask({ task, onClick, users, taskStatus, taskId }) {
 			setStatusName('подтверждено');
 			setDeadlieneData(`Выполнено`);
 			setDataClass('mytask__data mytask__data-done');
+			setNoHoverTask(true);
 		}
 	}, [currentTaskStatus]);
 
@@ -91,14 +96,14 @@ function DepartmentTask({ task, onClick, users, taskStatus, taskId }) {
 
 	return (
 		<div
-			className="mytask"
+			className={`mytask ${noHoverTask ? 'department-task__no-hover' : ''}`}
 			onClick={() => onClick(id, status)}
 			role="button"
 			tabIndex={0}
 			onKeyDown={null}
 		>
 			<p className={titleClassName}>{title}</p>
-			<p className="mytask__realizer">{executor}</p>
+			<p className="mytask__realizer department-task__executor">{executor}</p>
 			<div className={`${statusClassName} mytask__status-department-task`}>
 				{statusName}
 			</div>

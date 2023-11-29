@@ -86,3 +86,12 @@ export const PopupAddTaskSchema = yup.object().shape({
 		.positive(ERROR_MESSAGES.POPUP)
 		.required(ERROR_MESSAGES.POPUP),
 });
+
+export const PopupEditTaskSchema = yup.object().shape({
+	description: yup.string(),
+	deadline: yup.date().min(new Date(), ERROR_MESSAGES.POPUP),
+	reward_points: yup
+		.number(ERROR_MESSAGES.POPUP)
+		.integer(ERROR_MESSAGES.POPUP)
+		.positive(ERROR_MESSAGES.POPUP),
+});

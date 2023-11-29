@@ -10,6 +10,7 @@ function ActivateProfile() {
 	const { uid, token } = useParams();
 
 	useEffect(() => {
+		console.log(uid, token);
 		activateRegister(uid, token)
 			.then(() => {
 				setTimeout(() => {

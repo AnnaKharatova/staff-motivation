@@ -9,6 +9,19 @@
 		margin: 0;
 		color: #525c76;
 	}
+
+	&__no-hover:hover {
+		background-color: inherit;
+		cursor: auto;
+	}
+	&__task-title {
+		padding-bottom: 8px;
+		width: 60%;
+	}
+
+	&__executor {
+		text-align: start;
+	}
 }
 
 @media (max-width: 1240px) {
@@ -19,5 +32,11 @@
 		&__task-title {
 			width: 310px;
 		}
+	}
+}
+
+@media (max-width: 1024px) {
+	.department-task {
+		padding-left: 0;
 	}
 }
